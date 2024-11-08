@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from 'axios'
 
 // 에러 응답 데이터의 타입 정의
 // interface ErrorResponseData {
@@ -8,11 +8,11 @@ import axios, { AxiosInstance } from 'axios';
 
 // Axios 인스턴스 생성
 export const api: AxiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: { 'Content-Type': 'application/json' },
-    // timeout: 10000,  // 요청 타임아웃 시간을 10초로 설정합니다. 10초 후에 요청이 완료되지 않으면 에러를 반환합니다.
-    withCredentials: true, // 쿠키를 포함한 요청을 허용하기 위해 Header 부분에 옵션 설정
-});
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  headers: { 'Content-Type': 'application/json' },
+  // timeout: 10000,  // 요청 타임아웃 시간을 10초로 설정합니다. 10초 후에 요청이 완료되지 않으면 에러를 반환합니다.
+  withCredentials: true, // 쿠키를 포함한 요청을 허용하기 위해 Header 부분에 옵션 설정
+})
 
 // // 요청 인터셉터
 // api.interceptors.request.use(
