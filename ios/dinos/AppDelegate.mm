@@ -2,6 +2,9 @@
 
 #import <React/RCTBundleURLProvider.h>
 
+#import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
+#import <GoogleSignIn/GoogleSignIn.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -28,4 +31,16 @@
 #endif
 }
 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  // naver
+  if ([url.scheme isEqualToString:@"naverlogin"]) {
+    return [[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];
+  }
+  // google
+  return [GIDSignIn.sharedInstance handleURL:url];
+}
+
 @end
+

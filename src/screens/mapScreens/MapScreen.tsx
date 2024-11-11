@@ -1,14 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
-import { Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+import { Text } from 'react-native'
 
 function MapScreen() {
-    const navigation = useNavigation();
+  const navigation = useNavigation()
 
-    return (
-        <>
-            <Text>메인 지도</Text>
-        </>
-    );
+  return (
+    <>
+      <Text>메인 지도</Text>
+    </>
+  )
 }
 
-export default MapScreen;
+export default MapScreen
