@@ -19,3 +19,14 @@ buildscript {
 }
 
 apply plugin: "com.facebook.react.rootproject"
+
+// Kakao SDK 저장소를 추가하기 위한 allprojects 섹션
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+
+        // Kakao SDK를 위한 Maven 저장소 추가
+        maven { url "https://devrepo.kakao.com/nexus/content/groups/public/" }
+    }
+}

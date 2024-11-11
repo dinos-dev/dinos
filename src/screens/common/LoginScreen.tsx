@@ -5,8 +5,26 @@ import {
     TextInput,
     View,
 } from 'react-native';
+import { login } from '@react-native-kakao/user';
+import { getKeyHashAndroid } from '@react-native-kakao/core';
 
 function LoginScreen() {
+
+    const kakaoLogin = async () => {
+        try {
+            const res = await login();
+            console.log('res : ', res);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    // 안드로이드 해시키 가져오기
+    const getHash = async () => {
+        getKeyHashAndroid().then(console.log);
+    }
+
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.inputContainer}>
@@ -14,6 +32,7 @@ function LoginScreen() {
                 <TextInput placeholder="비밀번호" />
             </View>
             <Button title="로그인" />
+            <Button title="카카오 로그인" onPress={kakaoLogin} />
         </SafeAreaView>
     );
 }
