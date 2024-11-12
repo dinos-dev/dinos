@@ -1,11 +1,11 @@
 import MembersNavigator from '../members/MembersNavigator'
 import CommonNavigator from '../common/CommonNavigator'
-import { useState } from 'react'
+import useAuthStore from '../../store/authStore'
 
 function RootNavigator() {
-  const [isLoggedIn] = useState(false) //로그인상태 확인(전역상태)
+  const { isAuthenticated } = useAuthStore()
 
-  return <>{isLoggedIn ? <MembersNavigator /> : <CommonNavigator />}</>
+  return <>{isAuthenticated ? <MembersNavigator /> : <CommonNavigator />}</>
 }
 
 export default RootNavigator
