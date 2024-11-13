@@ -2,7 +2,7 @@ import Geolocation from 'react-native-geolocation-service'
 import { useEffect, useRef, useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import MapView, { Callout, LatLng, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
-import MapBottomSheet from '../../components/MapBottomSheet'
+import MapBottomSheet from '../../components/modal/MapBottomSheet'
 
 function MapScreen() {
   const mapRef = useRef<MapView | null>(null)
