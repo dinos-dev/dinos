@@ -1,14 +1,15 @@
 #import "AppDelegate.h"
-
 #import <React/RCTBundleURLProvider.h>
-
 #import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
 #import <GoogleSignIn/GoogleSignIn.h>
+#import <GoogleMaps/GoogleMaps.h> //애플지도 대신 구글맵 사용하기 위한 import
+#import "RNCConfig.h" // 환경변수
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:[RNCConfig envFor:@"MAPS_IOS_API_KEY"]];
   self.moduleName = @"dinos";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
