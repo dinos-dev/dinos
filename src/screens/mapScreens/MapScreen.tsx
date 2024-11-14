@@ -70,9 +70,9 @@ function MapScreen() {
       const newLocation = { latitude: lat, longitude: lng }
       setSelectedLocation(newLocation)
       MoveToCurrentLocation(lat, lng)
-    
+
       googlePlacesAutocompleteRef.current?.setAddressText('') // 검색창 초기화
-      setNoteOpen(true) 
+      setNoteOpen(true)
       setNoteDetails(extendedDetails)
     } else {
       console.log('Details not available')

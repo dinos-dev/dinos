@@ -15,17 +15,13 @@ const getPlacePhotoUrl = (photoReference: string): string => {
 }
 
 function MapBottomSheet({ noteDetails, noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
-
   const [placeDetails, setPlaceDetails] = useState<string[]>()
-  
 
   useEffect(() => {
     console.log('noteDetails', noteDetails)
-    const photoUrls = noteDetails?.photos?.map((photo) => getPlacePhotoUrl(photo.photo_reference)) || [];
+    const photoUrls = noteDetails?.photos?.map((photo) => getPlacePhotoUrl(photo.photo_reference)) || []
     setPlaceDetails(photoUrls)
-
-  },[noteDetails])
-
+  }, [noteDetails])
 
   return (
     <Modal
@@ -49,9 +45,7 @@ function MapBottomSheet({ noteDetails, noteOpen, setNoteOpen }: MapBottomSheetPr
               {noteDetails?.formatted_address}
             </Text>
           </View>
-          {placeDetails && placeDetails.length > 0 && (
-            <Image source={{ uri: placeDetails[0] }} style={styles.image} />
-          )}
+          {placeDetails && placeDetails.length > 0 && <Image source={{ uri: placeDetails[0] }} style={styles.image} />}
         </View>
       </View>
     </Modal>
