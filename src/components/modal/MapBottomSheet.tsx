@@ -1,11 +1,13 @@
 import { Image, Modal, Pressable, StyleSheet, View, Text } from 'react-native'
+import { GooglePlaceDetail } from 'react-native-google-places-autocomplete'
 
 type MapBottomSheetPropsType = {
+  noteDetails?: GooglePlaceDetail
   noteOpen: boolean
   setNoteOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function MapBottomSheet({ noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
+function MapBottomSheet({ noteDetails, noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
   return (
     <Modal
       style={styles.modal}
@@ -23,7 +25,7 @@ function MapBottomSheet({ noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
         </View>
         <View style={styles.modalContent}>
           <View style={styles.infoSection}>
-            <Text style={styles.title}>다이노스 피자</Text>
+            <Text style={styles.title}>{noteDetails?.name}</Text>
             <Text style={styles.note} numberOfLines={4} ellipsizeMode="tail">
               헌법재판소 재판관은 탄핵 또는 금고 이상의 형의 선고에 의하지 아니하고는 파면되지 아니한다. 헌법재판소에서
               법률의 위헌결정, 탄핵의 결정, 정당해산의 결정 또는 헌법소원에 관한 인용결정을 할 때에는 재판관 6인 이상의
