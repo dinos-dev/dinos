@@ -1,11 +1,28 @@
+import { useEffect, useState } from 'react'
 import { Image, Modal, Pressable, StyleSheet, View, Text } from 'react-native'
+import Config from 'react-native-config'
+import { ExtendedGooglePlaceDetail } from '../../types/map'
 
 type MapBottomSheetPropsType = {
+  noteDetails?: ExtendedGooglePlaceDetail
   noteOpen: boolean
   setNoteOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function MapBottomSheet({ noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
+// 장소 사진 URL 생성 함수
+const getPlacePhotoUrl = (photoReference: string): string => {
+  return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${Config.MAPS_PLACES_API_KEY}`
+}
+
+function MapBottomSheet({ noteDetails, noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
+  const [placeDetails, setPlaceDetails] = useState<string[]>()
+
+  useEffect(() => {
+    console.log('noteDetails', noteDetails)
+    const photoUrls = noteDetails?.photos?.map((photo) => getPlacePhotoUrl(photo.photo_reference)) || []
+    setPlaceDetails(photoUrls)
+  }, [noteDetails])
+
   return (
     <Modal
       style={styles.modal}
@@ -23,14 +40,12 @@ function MapBottomSheet({ noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
         </View>
         <View style={styles.modalContent}>
           <View style={styles.infoSection}>
-            <Text style={styles.title}>다이노스 피자</Text>
+            <Text style={styles.title}>{noteDetails?.name}</Text>
             <Text style={styles.note} numberOfLines={4} ellipsizeMode="tail">
-              헌법재판소 재판관은 탄핵 또는 금고 이상의 형의 선고에 의하지 아니하고는 파면되지 아니한다. 헌법재판소에서
-              법률의 위헌결정, 탄핵의 결정, 정당해산의 결정 또는 헌법소원에 관한 인용결정을 할 때에는 재판관 6인 이상의
-              찬성이 있어야 한다. 공무원은 국민전체에 대한 봉사자이며, 국민에 대하여 책임을 진다.
+              {noteDetails?.formatted_address}
             </Text>
           </View>
-          <Image style={styles.image} src="https://cdn.imweb.me/thumbnail/20230208/ce2392523295d.png" />
+          {placeDetails && placeDetails.length > 0 && <Image source={{ uri: placeDetails[0] }} style={styles.image} />}
         </View>
       </View>
     </Modal>
