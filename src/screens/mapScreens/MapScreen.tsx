@@ -3,18 +3,23 @@ import { useEffect, useRef, useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import MapView, { Callout, LatLng, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MapBottomSheet from '../../components/modal/MapBottomSheet'
-import { GooglePlacesAutocomplete, GooglePlacesAutocompleteRef, GooglePlaceData, GooglePlaceDetail } from 'react-native-google-places-autocomplete'
+import {
+  GooglePlacesAutocomplete,
+  GooglePlacesAutocompleteRef,
+  GooglePlaceData,
+  GooglePlaceDetail,
+} from 'react-native-google-places-autocomplete'
 import 'react-native-get-random-values'
 import Config from 'react-native-config'
 
 // 장소 사진 URL 생성 함수
 const getPlacePhotoUrl = (photoReference: string): string => {
-  return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${Config.MAPS_PLACES_API_KEY}`;
+  return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${Config.MAPS_PLACES_API_KEY}`
 }
 
 // GooglePlaceDetail 타입 확장하여 photos 속성 추가
 interface ExtendedGooglePlaceDetail extends GooglePlaceDetail {
-  photos?: { photo_reference: string }[];
+  photos?: { photo_reference: string }[]
 }
 
 function MapScreen() {
@@ -27,13 +32,12 @@ function MapScreen() {
   const [noteOpen, setNoteOpen] = useState<boolean>(false)
   const [noteDetails, setNoteDetails] = useState<ExtendedGooglePlaceDetail>()
   const bottomSheetRef = useRef(null)
-  const googlePlacesAutocompleteRef = useRef<GooglePlacesAutocompleteRef>(null);
+  const googlePlacesAutocompleteRef = useRef<GooglePlacesAutocompleteRef>(null)
   const [placeDetails, setPlaceDetails] = useState<{
-    name: string;
-    photoUrl: string | null;
-  }>({ name: "", photoUrl: null });
+    name: string
+    photoUrl: string | null
+  }>({ name: '', photoUrl: null })
 
-  
   useEffect(() => {
     //내 위치 구하고 지도를 내 위치로 이동
     Geolocation.getCurrentPosition(
@@ -64,34 +68,34 @@ function MapScreen() {
       { duration: 800 },
     )
   }
-  
+
   const autoCompleteHandler = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
     if (details) {
-      console.log('data:', data);
-      const extendedDetails = details as ExtendedGooglePlaceDetail; // 타입 단언 사용
-      console.log('extendedDetails:', extendedDetails);
-      const { lat, lng } = extendedDetails.geometry.location;
-      const newLocation = { latitude: lat, longitude: lng };
-      setSelectedLocation(newLocation);
-      MoveToCurrentLocation(lat, lng);
-  
-      const photoUrl = (extendedDetails.photos && extendedDetails.photos[0]?.photo_reference)
-        ? getPlacePhotoUrl(extendedDetails.photos[0].photo_reference)
-        : null;
-      
+      console.log('data:', data)
+      const extendedDetails = details as ExtendedGooglePlaceDetail // 타입 단언 사용
+      console.log('extendedDetails:', extendedDetails)
+      const { lat, lng } = extendedDetails.geometry.location
+      const newLocation = { latitude: lat, longitude: lng }
+      setSelectedLocation(newLocation)
+      MoveToCurrentLocation(lat, lng)
+
+      const photoUrl =
+        extendedDetails.photos && extendedDetails.photos[0]?.photo_reference
+          ? getPlacePhotoUrl(extendedDetails.photos[0].photo_reference)
+          : null
+
       setPlaceDetails({
         name: extendedDetails.name,
         photoUrl,
-      });
-  
-      googlePlacesAutocompleteRef.current?.setAddressText('');
-      setNoteOpen(true);
-      setNoteDetails(extendedDetails);
-    } else {
-      console.log('Details not available');
-    }
-  };
+      })
 
+      googlePlacesAutocompleteRef.current?.setAddressText('')
+      setNoteOpen(true)
+      setNoteDetails(extendedDetails)
+    } else {
+      console.log('Details not available')
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -117,7 +121,7 @@ function MapScreen() {
           textInput: styles.textInput,
           listView: styles.listView,
         }}
-      />    
+      />
       <MapView
         ref={mapRef}
         style={styles.map}
@@ -156,7 +160,7 @@ function MapScreen() {
             </Marker>
           </Callout>
         )}
-  
+
         <Marker
           draggable
           coordinate={{ latitude: 37.561389, longitude: 126.977778 }}
@@ -164,7 +168,7 @@ function MapScreen() {
           description="리스트 1에 저장된 위치"
         />
       </MapView>
-  
+
       <View style={styles.buttonBox}>
         <Pressable style={styles.mylocation} onPress={() => setNoteOpen(true)}>
           <Text style={styles.icon}>📝</Text>
@@ -176,11 +180,10 @@ function MapScreen() {
           <Text style={styles.icon}>🌐</Text>
         </Pressable>
       </View>
-  
+
       <MapBottomSheet noteDetails={noteDetails} noteOpen={noteOpen} setNoteOpen={setNoteOpen} />
     </View>
   )
-  
 }
 
 const styles = StyleSheet.create({
@@ -246,8 +249,5 @@ const styles = StyleSheet.create({
     borderRadius: 27,
   },
 })
-
-
-
 
 export default MapScreen
