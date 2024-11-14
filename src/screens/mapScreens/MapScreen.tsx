@@ -31,12 +31,7 @@ function MapScreen() {
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>()
   const [noteOpen, setNoteOpen] = useState<boolean>(false)
   const [noteDetails, setNoteDetails] = useState<ExtendedGooglePlaceDetail>()
-  const bottomSheetRef = useRef(null)
   const googlePlacesAutocompleteRef = useRef<GooglePlacesAutocompleteRef>(null)
-  const [placeDetails, setPlaceDetails] = useState<{
-    name: string
-    photoUrl: string | null
-  }>({ name: '', photoUrl: null })
 
   useEffect(() => {
     //내 위치 구하고 지도를 내 위치로 이동
@@ -78,16 +73,6 @@ function MapScreen() {
       const newLocation = { latitude: lat, longitude: lng }
       setSelectedLocation(newLocation)
       MoveToCurrentLocation(lat, lng)
-
-      const photoUrl =
-        extendedDetails.photos && extendedDetails.photos[0]?.photo_reference
-          ? getPlacePhotoUrl(extendedDetails.photos[0].photo_reference)
-          : null
-
-      setPlaceDetails({
-        name: extendedDetails.name,
-        photoUrl,
-      })
 
       googlePlacesAutocompleteRef.current?.setAddressText('')
       setNoteOpen(true)
