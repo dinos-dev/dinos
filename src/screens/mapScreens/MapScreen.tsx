@@ -11,15 +11,11 @@ import {
 } from 'react-native-google-places-autocomplete'
 import 'react-native-get-random-values'
 import Config from 'react-native-config'
+import { ExtendedGooglePlaceDetail } from '../../types/map'
 
 // 장소 사진 URL 생성 함수
 const getPlacePhotoUrl = (photoReference: string): string => {
   return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${Config.MAPS_PLACES_API_KEY}`
-}
-
-// GooglePlaceDetail 타입 확장하여 photos 속성 추가
-interface ExtendedGooglePlaceDetail extends GooglePlaceDetail {
-  photos?: { photo_reference: string }[]
 }
 
 function MapScreen() {
@@ -66,16 +62,17 @@ function MapScreen() {
 
   const autoCompleteHandler = (data: GooglePlaceData, details: GooglePlaceDetail | null) => {
     if (details) {
-      console.log('data:', data)
-      const extendedDetails = details as ExtendedGooglePlaceDetail // 타입 단언 사용
-      console.log('extendedDetails:', extendedDetails)
+      // console.log('data:', data)
+      const extendedDetails = details as ExtendedGooglePlaceDetail
+      // console.log('extendedDetails:', extendedDetails)
+
       const { lat, lng } = extendedDetails.geometry.location
       const newLocation = { latitude: lat, longitude: lng }
       setSelectedLocation(newLocation)
       MoveToCurrentLocation(lat, lng)
-
-      googlePlacesAutocompleteRef.current?.setAddressText('')
-      setNoteOpen(true)
+    
+      googlePlacesAutocompleteRef.current?.setAddressText('') // 검색창 초기화
+      setNoteOpen(true) 
       setNoteDetails(extendedDetails)
     } else {
       console.log('Details not available')
