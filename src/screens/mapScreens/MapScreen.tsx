@@ -25,14 +25,14 @@ function MapScreen() {
     longitude: 126.977778,
   })
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>()
-  const [noteOpen, setNoteOpen] = useState<boolean>(false)
-  const [noteDetails, setNoteDetails] = useState<ExtendedGooglePlaceDetail>()
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+  const [modalDetails, setModalDetails] = useState<ExtendedGooglePlaceDetail>()
   const googlePlacesAutocompleteRef = useRef<GooglePlacesAutocompleteRef>(null)
 
   useEffect(() => {
     //내 위치 구하고 지도를 내 위치로 이동
     Geolocation.getCurrentPosition(
-      (info) => {
+      (info) => { 
         console.log(info)
         const { latitude, longitude } = info.coords
         setUserLocation({ latitude, longitude })
@@ -72,8 +72,8 @@ function MapScreen() {
       MoveToCurrentLocation(lat, lng)
 
       googlePlacesAutocompleteRef.current?.setAddressText('') // 검색창 초기화
-      setNoteOpen(true)
-      setNoteDetails(extendedDetails)
+      setModalOpen(true)
+      setModalDetails(extendedDetails)
     } else {
       console.log('Details not available')
     }
@@ -152,7 +152,7 @@ function MapScreen() {
       </MapView>
 
       <View style={styles.buttonBox}>
-        <Pressable style={styles.mylocation} onPress={() => setNoteOpen(true)}>
+        <Pressable style={styles.mylocation} onPress={() => setModalOpen(true)}>
           <Text style={styles.icon}>📝</Text>
         </Pressable>
         <Pressable
@@ -163,7 +163,7 @@ function MapScreen() {
         </Pressable>
       </View>
 
-      <MapBottomSheet noteDetails={noteDetails} noteOpen={noteOpen} setNoteOpen={setNoteOpen} />
+      <MapBottomSheet modalDetails={modalDetails} modalOpen={modalOpen} setModalOpen={setModalOpen} />
     </View>
   )
 }

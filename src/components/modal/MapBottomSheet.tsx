@@ -4,9 +4,9 @@ import Config from 'react-native-config'
 import { ExtendedGooglePlaceDetail } from '../../types/map'
 
 type MapBottomSheetPropsType = {
-  noteDetails?: ExtendedGooglePlaceDetail
-  noteOpen: boolean
-  setNoteOpen: React.Dispatch<React.SetStateAction<boolean>>
+  modalDetails?: ExtendedGooglePlaceDetail
+  modalOpen: boolean
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 // 장소 사진 URL 생성 함수
@@ -14,35 +14,35 @@ const getPlacePhotoUrl = (photoReference: string): string => {
   return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoReference}&key=${Config.MAPS_PLACES_API_KEY}`
 }
 
-function MapBottomSheet({ noteDetails, noteOpen, setNoteOpen }: MapBottomSheetPropsType) {
+function MapBottomSheet({ modalDetails, modalOpen, setModalOpen }: MapBottomSheetPropsType) {
   const [placeDetails, setPlaceDetails] = useState<string[]>()
 
   useEffect(() => {
-    console.log('noteDetails', noteDetails)
-    const photoUrls = noteDetails?.photos?.map((photo) => getPlacePhotoUrl(photo.photo_reference)) || []
+    console.log('modalDetails', modalDetails)
+    const photoUrls = modalDetails?.photos?.map((photo) => getPlacePhotoUrl(photo.photo_reference)) || []
     setPlaceDetails(photoUrls)
-  }, [noteDetails])
+  }, [modalDetails])
 
   return (
     <Modal
       style={styles.modal}
       animationType="slide"
       transparent={true}
-      visible={noteOpen}
-      onRequestClose={() => setNoteOpen(false)}
+      visible={modalOpen}
+      onRequestClose={() => setModalOpen(false)}
     >
-      <Pressable style={styles.modalOutside} onPress={() => setNoteOpen(false)} />
+      <Pressable style={styles.modalOutside} onPress={() => setModalOpen(false)} />
       <View style={styles.modalView}>
         <View style={styles.modalCloseBox}>
-          <Pressable style={styles.closeButton} onPress={() => setNoteOpen(false)}>
+          <Pressable style={styles.closeButton} onPress={() => setModalOpen(false)}>
             <Text style={styles.closeText}>X</Text>
           </Pressable>
         </View>
         <View style={styles.modalContent}>
           <View style={styles.infoSection}>
-            <Text style={styles.title}>{noteDetails?.name}</Text>
+            <Text style={styles.title}>{modalDetails?.name}</Text>
             <Text style={styles.note} numberOfLines={4} ellipsizeMode="tail">
-              {noteDetails?.formatted_address}
+              {modalDetails?.formatted_address}
             </Text>
           </View>
           {placeDetails && placeDetails.length > 0 && <Image source={{ uri: placeDetails[0] }} style={styles.image} />}
