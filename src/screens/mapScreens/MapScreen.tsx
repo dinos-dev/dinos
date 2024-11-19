@@ -32,7 +32,7 @@ function MapScreen() {
   useEffect(() => {
     //내 위치 구하고 지도를 내 위치로 이동
     Geolocation.getCurrentPosition(
-      (info) => { 
+      (info) => {
         console.log(info)
         const { latitude, longitude } = info.coords
         setUserLocation({ latitude, longitude })
