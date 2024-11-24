@@ -10,8 +10,8 @@ import {
 import NaverLogin from '@react-native-seoul/naver-login'
 import useAuthStore from '../../store/authStore'
 
-const consumerKey = Config.NAVER_CONSUMER_KEY as string
-const consumerSecret = Config.NAVER_CONSUMER_SECRET as string
+const consumerKey = Config.NAVER_CONSUMER_KEY
+const consumerSecret = Config.NAVER_CONSUMER_SECRET
 const appName = 'dinos'
 const serviceUrlSchemeIOS = 'naverlogin'
 
@@ -22,6 +22,7 @@ function LoginScreen() {
     GoogleSignin.configure({
       webClientId: Config.GOOGLE_LOGIN_ANDROID,
       iosClientId: Config.GOOGLE_LOGIN_IOS,
+      offlineAccess: true,
     })
     NaverLogin.initialize({
       appName,
@@ -33,7 +34,6 @@ function LoginScreen() {
 
   const loginWithGoogle = async () => {
     try {
-      // const token = await GoogleSignin.getTokens()
       const userInfo = await GoogleSignin.signIn()
       if (userInfo.data) {
         const { email, id, name } = userInfo.data.user
@@ -46,7 +46,8 @@ function LoginScreen() {
             Alert.alert('로그인이 진행중입니다.')
             break
           default:
-            Alert.alert('로그인 중 에러가 발생했습니다.')
+            Alert.alert(error.code)
+          // Alert.alert('로그인 중 에러가 발생했습니다.')
         }
       } else {
         //구글에러가 아닌 경우
