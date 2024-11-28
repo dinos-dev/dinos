@@ -4,6 +4,7 @@
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <GoogleMaps/GoogleMaps.h> //애플지도 대신 구글맵 사용하기 위한 import
 #import "RNCConfig.h" // 환경변수
+#import "RNSplashScreen.h" // 스플래시 스크린
 
 @implementation AppDelegate
 
@@ -15,7 +16,13 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  // return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  BOOL ret = [super application:application didFinishLaunchingWithOptions:launchOptions]; //스플래시스크린
+  if (ret == YES) {
+    [RNSplashScreen show]; 
+  }
+  return ret;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
