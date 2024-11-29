@@ -10,6 +10,7 @@ export enum SCREENS {
   PROFILE_SCREEN = 'profile-screen',
 
   // Auth Screens
+  ONBOARDING_SCREEN = 'onboarding-screen',
   LOGIN_SCREEN = 'login-screen',
   SIGNUP_SCREEN = 'signup-screen',
 }
