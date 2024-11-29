@@ -5,10 +5,10 @@ import ProfileScreen from '../../../screens/myPageScreens/ProfileScreen'
 
 const Stack = createNativeStackNavigator()
 export default function MyPageSharedStack() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={SCREENS.MY_PAGE_SCREEN} component={MyPageScreen} />
-      <Stack.Screen name={SCREENS.PROFILE_SCREEN} component={ProfileScreen} />
-    </Stack.Navigator>
-  )
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={SCREENS.MY_PAGE_SCREEN} component={MyPageScreen} />
+            <Stack.Screen name={SCREENS.PROFILE_SCREEN} component={ProfileScreen} />
+        </Stack.Navigator>
+    )
 }

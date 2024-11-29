@@ -5,14 +5,14 @@ import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 
 const ProfileScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<NaviParams>>()
+    const navigation = useNavigation<NativeStackNavigationProp<NaviParams>>()
 
-  return (
-    <View>
-      <Text style={{ fontSize: 20 }}>프로필</Text>
-      <Button title="뒤로가기" onPress={() => navigation.navigate(SCREENS.MY_PAGE_SCREEN)} />
-    </View>
-  )
+    return (
+        <View>
+            <Text style={{ fontSize: 20 }}>프로필</Text>
+            <Button title="뒤로가기" onPress={() => navigation.navigate(SCREENS.MY_PAGE_SCREEN)} />
+        </View>
+    )
 }
 
 export default ProfileScreen

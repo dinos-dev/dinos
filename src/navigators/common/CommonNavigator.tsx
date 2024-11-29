@@ -5,12 +5,12 @@ import { SCREENS } from '../../constants/RoutePath'
 
 const Stack = createNativeStackNavigator()
 function CommonNavigator() {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={SCREENS.LOGIN_SCREEN} component={LoginScreen} />
-      <Stack.Screen name={SCREENS.SIGNUP_SCREEN} component={SignupScreen} />
-    </Stack.Navigator>
-  )
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name={SCREENS.LOGIN_SCREEN} component={LoginScreen} />
+            <Stack.Screen name={SCREENS.SIGNUP_SCREEN} component={SignupScreen} />
+        </Stack.Navigator>
+    )
 }
 
 export default CommonNavigator
