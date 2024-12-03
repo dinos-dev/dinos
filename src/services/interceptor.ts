@@ -9,8 +9,8 @@ import { Alert } from 'react-native'
 
 interface ErrorResponseData {
     errorCode?: string
-    message?: string; // 에러 메시지
-    error?: string; // 에러 세부 정보
+    message?: string // 에러 메시지
+    error?: string // 에러 세부 정보
 }
 
 const api = axios.create({
