@@ -1,20 +1,22 @@
 import { DefaultResponse } from '.'
 
 /*************************** Domain & DTO ***************************/
+export interface IUserInfo {
+    id: string | number
+    email: string
+    userName: string
+    authType: string
+    isActive: boolean
+}
 
 /******************************* Form ********************************/
 
 /***************************** Request *****************************/
-export interface ISignUpRequest {
-    email: string
-    userName: string
-    authType: 'google' | 'kakao' | 'apple' | 'naver'
+export interface IUserInfoRequest {
+    id: string | number
 }
 
 /***************************** Response *****************************/
-export interface ISignUpResponse extends DefaultResponse {
-    result: {
-        accessToken: string
-        refreshToken: string
-    }
+export interface IUserInfoResponse extends DefaultResponse {
+    result: IUserInfo
 }

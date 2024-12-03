@@ -1,95 +1,103 @@
+import { getRefreshToken } from './../store/asynsStorage'
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { handleApiError } from '../libs/apiErrorHandler'
+import { getAccessToken } from '../store/asynsStorage'
+import ErrorCode from '../constants/ErrorCode'
+import Config from 'react-native-config'
+import useAuthStore from '../store/authStore'
+import { Alert } from 'react-native'
 
-// Axios 인스턴스 생성
+interface ErrorResponseData {
+    errorCode?: string
+    message?: string; // 에러 메시지
+    error?: string; // 에러 세부 정보
+}
+
 const api = axios.create({
-    // baseURL: process.env.API_BASE_URL,
-    baseURL: 'https://dinos-apigw.p-e.kr/',
+    baseURL: Config.API_BASE_URL,
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
     },
 })
 
-const isRefreshing = false
-let failedQueue: Array<{
-    resolve: (token: string) => void
-    reject: (error: AxiosError) => void
-}> = []
-
-const processQueue = (token: string | null, error: AxiosError | null) => {
-    failedQueue.forEach((prom) => {
-        if (token) {
-            prom.resolve(token)
-        } else {
-            prom.reject(error!)
-        }
-    })
-    failedQueue = []
-}
-
-// 요청 인터셉터
 api.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        const token = await AsyncStorage.getItem('accessToken')
-        if (token && config.headers) {
-            config.headers.Authorization = `Bearer ${token}`
+        try {
+            const accessToken = await getAccessToken()
+            // console.log('token : ', token);
+            if (accessToken && config.headers) {
+                config.headers.Authorization = `Bearer ${accessToken}`
+            }
+        } catch (error) {
+            console.error('Error in request interceptor:', error)
         }
         return config
     },
     (error: AxiosError) => Promise.reject(error),
 )
 
-// 응답 인터셉터
 api.interceptors.response.use(
     (response: AxiosResponse) => response,
-    (error: AxiosError) => {
-        const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean }
-        if (!error.config) {
-            return Promise.reject(error)
+    async (error: AxiosError) => {
+        console.log('interceptor=> error.response : ', error.response)
+
+        if (error.response?.status === 401) {
+            console.log('401 error detected. Attempting to refresh token.')
+
+            const errorData = error.response.data as ErrorResponseData
+            console.log('errorData : ', errorData)
+
+            // error가 EXPIRED_TOKEN(ACCESS_TOKEN 만료)인 경우에만 토큰 재발급 시도
+            if (errorData && errorData.error && errorData.error === ErrorCode.EXPIRED_TOKEN) {
+                console.log('errorData.error :', errorData.error)
+                console.log('------------accessToken 재발급 API 호출----------')
+
+                try {
+                    // 토큰 재발급을 위한 API 호출
+                    const refreshToken = await getRefreshToken()
+                    console.log('refreshToken : ', refreshToken)
+                    const response = await axios({
+                        method: 'post',
+                        url: `${Config.API_BASE_URL}auth/token/access`,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${refreshToken}`,
+                        },
+                        withCredentials: true,
+                    })
+
+                    console.log('response : ', response)
+
+                    // 기존 요청을 새 토큰으로 재실행
+                    console.log('------------기존 API 호출----------')
+                    const { updateAccessToken } = useAuthStore.getState()
+                    updateAccessToken(response.data.result)
+                    return api({
+                        ...error.config,
+                        headers: {
+                            ...error?.config?.headers,
+                            Authorization: `Bearer ${response.data.result}`,
+                        },
+                    })
+                } catch (refreshError) {
+                    console.log('Token refresh failed:', refreshError)
+                    Alert.alert('토근 갱신에 실패했습니다. 다시 로그인해주세요')
+                    const { logout } = useAuthStore.getState()
+                    logout()
+                    return Promise.reject(refreshError)
+                }
+            } else if (errorData && errorData.error) {
+                console.log('errorData.error :', errorData.error)
+                Alert.alert('토근이 만료 되었습니다. 다시 로그인해주세요')
+                const { logout } = useAuthStore.getState()
+                logout()
+                return Promise.reject(error)
+            }
         }
 
-        const statusCode = error.response?.status
-        // if (statusCode === 401 && !originalRequest._retry) {
-        //     if (isRefreshing) {
-        //         return new Promise((resolve, reject) => {
-        //             failedQueue.push({ resolve, reject })
-        //         })
-        //             .then((token) => {
-        //                 if (originalRequest.headers) {
-        //                     originalRequest.headers.Authorization = `Bearer ${token}`
-        //                 }
-        //                 return api(originalRequest)
-        //             })
-        //             .catch((err) => Promise.reject(err))
-        //     }
-
-        //     originalRequest._retry = true
-        //     isRefreshing = true
-
-        //     try {
-        //         const refreshToken = await AsyncStorage.getItem('refreshToken')
-        //         const response = await axios.post<{ accessToken: string }>('/auth/refresh', { refreshToken })
-        //         const newToken = response.data.accessToken
-
-        //         await AsyncStorage.setItem('accessToken', newToken)
-        //         api.defaults.headers.Authorization = `Bearer ${newToken}`
-        //         processQueue(newToken, null)
-        //         isRefreshing = false
-
-        //         if (originalRequest.headers) {
-        //             originalRequest.headers.Authorization = `Bearer ${newToken}`
-        //         }
-        //         return api(originalRequest)
-        //     } catch (refreshError) {
-        //         processQueue(null, refreshError as AxiosError)
-        //         isRefreshing = false
-        //         return Promise.reject(refreshError)
-        //     }
-        // }
-
-        handleApiError(error, error.config.url || '')
+        console.log('Error in response interceptor:', error)
+        handleApiError(error, error?.config?.url || '')
         return Promise.reject(error)
     },
 )

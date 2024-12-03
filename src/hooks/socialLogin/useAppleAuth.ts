@@ -26,10 +26,16 @@ export const useAppleAuth = () => {
              * @TODO
              * 개발용
              */
-            const res = await Auth.Post.signUp({ email: 'test@gmail.com', userName: null, authType: 'apple' })
-            console.log('res : ', res)
+            const res = await Auth.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
             if (res) {
-                login({ email: email ?? '', id: user, name, authType: 'apple' })
+                login({
+                    email: email ?? '',
+                    id: 'test',
+                    name: 'test',
+                    authType: 'apple',
+                    accessToken: res.result.accessToken,
+                    refreshToken: res.result.refreshToken,
+                })
                 Alert.alert('로그인에 성공했습니다.')
             }
 
