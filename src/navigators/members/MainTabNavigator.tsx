@@ -14,6 +14,7 @@ function MainTabNavigator() {
       screenOptions={{
         headerShown: false, // 헤더를 표시하지 않음
         lazy: true, // 탭을 선택할 때 컴포넌트를 렌더링
+        tabBarLabelStyle: { fontFamily: 'Pretendard-SemiBold' },
       }}
     >
       <Tab.Screen
