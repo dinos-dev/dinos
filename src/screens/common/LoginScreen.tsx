@@ -1,4 +1,14 @@
-import { Button, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Text, Alert, Platform } from 'react-native'
+import {
+  Button,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Text,
+  Alert,
+  Platform,
+} from 'react-native'
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import useAuthStore from '../../store/authStore'
 import { useAppleAuth, useGoogleAuth, useNaverAuth } from '../../hooks/socialLogin'
