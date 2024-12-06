@@ -12,6 +12,7 @@ import {
 import 'react-native-get-random-values'
 import Config from 'react-native-config'
 import { ExtendedGooglePlaceDetail } from '../../types/map'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 // 장소 사진 URL 생성 함수
 const getPlacePhotoUrl = (photoReference: string): string => {
@@ -28,6 +29,8 @@ function MapScreen() {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [modalDetails, setModalDetails] = useState<ExtendedGooglePlaceDetail>()
   const googlePlacesAutocompleteRef = useRef<GooglePlacesAutocompleteRef>(null)
+
+  const inset = useSafeAreaInsets()
 
   useEffect(() => {
     //내 위치 구하고 지도를 내 위치로 이동
@@ -98,7 +101,7 @@ function MapScreen() {
         keepResultsAfterBlur={true}
         enablePoweredByContainer={false}
         styles={{
-          container: styles.searchContainer,
+          container: [styles.searchContainer, { top: inset.top || 20 }],
           textInputContainer: styles.textInputContainer,
           textInput: styles.textInput,
           listView: styles.listView,
