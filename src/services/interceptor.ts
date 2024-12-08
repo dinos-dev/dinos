@@ -46,7 +46,6 @@ api.interceptors.response.use(
       console.log('401 error detected. Attempting to refresh token.')
       const { updateAccessToken, logout } = useAuthStore.getState()
 
-
       const errorData = error.response.data as ErrorResponseData
       console.log('errorData : ', errorData)
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
 import NaverLogin from '@react-native-seoul/naver-login'

@@ -1,5 +1,4 @@
 import appleAuth from '@invertase/react-native-apple-authentication'
-import { Alert } from 'react-native'
 import { useState } from 'react'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'

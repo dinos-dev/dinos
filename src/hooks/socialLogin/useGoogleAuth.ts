@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
