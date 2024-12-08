@@ -7,6 +7,7 @@ declare module 'react-native-config' {
     NAVER_CONSUMER_SECRET: string
     GOOGLE_LOGIN_IOS: string
     GOOGLE_LOGIN_ANDROID: string
+    API_BASE_URL: string
   }
 
   export const Config: NativeConfig
