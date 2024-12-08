@@ -1,7 +1,7 @@
 import { Api } from './api'
 import * as auth from '../types/auth'
 
-export const Auth = {
+export const AuthRequest = {
   Get: {
     //
   },

@@ -13,7 +13,7 @@ import { GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import useAuthStore from '../../store/authStore'
 import { useAppleAuth, useGoogleAuth, useNaverAuth } from '../../hooks/socialLogin'
 import { AppleButton } from '@invertase/react-native-apple-authentication'
-import { Auth } from '../../services/auth'
+import { AuthRequest } from '../../services/auth'
 
 function LoginScreen() {
   const { login } = useAuthStore()
@@ -22,7 +22,7 @@ function LoginScreen() {
   const { loginWithNaver, loading: naverLoginLoading } = useNaverAuth()
 
   const loginTest = async () => {
-    const res = await Auth.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
+    const res = await AuthRequest.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
     console.log('res : ', res.result)
     if (res) {
       login({
@@ -33,7 +33,6 @@ function LoginScreen() {
         accessToken: res.result.accessToken,
         refreshToken: res.result.refreshToken,
       })
-      Alert.alert('로그인에 성공했습니다.')
     }
   }
 

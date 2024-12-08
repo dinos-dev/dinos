@@ -10,6 +10,6 @@ export const handleApiError = (error: AxiosError, apiUrl: string) => {
     Alert.alert(messages[statusCode])
   } else {
     // 기본 에러 처리
-    Alert.alert(error.message || '알 수 없는 오류가 발생했습니다.')
+    Alert.alert('알 수 없는 오류가 발생했습니다.')
   }
 }

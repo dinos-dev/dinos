@@ -2,7 +2,7 @@ import appleAuth from '@invertase/react-native-apple-authentication'
 import { Alert } from 'react-native'
 import { useState } from 'react'
 import useAuthStore from '../../store/authStore'
-import { Auth } from '../../services/auth'
+import { AuthRequest } from '../../services/auth'
 
 export const useAppleAuth = () => {
   const { login } = useAuthStore()
@@ -26,7 +26,7 @@ export const useAppleAuth = () => {
        * @TODO
        * 개발용
        */
-      const res = await Auth.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
+      const res = await AuthRequest.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
       if (res) {
         login({
           email: email ?? '',
@@ -36,7 +36,6 @@ export const useAppleAuth = () => {
           accessToken: res.result.accessToken,
           refreshToken: res.result.refreshToken,
         })
-        Alert.alert('로그인에 성공했습니다.')
       }
 
       /**

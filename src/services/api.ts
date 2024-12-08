@@ -33,12 +33,6 @@ const apiRequest = async <TResponse>(
 }
 
 export const Api = {
-  request: <TResponse>(
-    method: 'get' | 'post' | 'put' | 'patch' | 'delete',
-    url: string,
-    params?: ApiParams,
-  ): Promise<TResponse> => apiRequest(method, url, params),
-
   Get: <TResponse>(url: string, params?: ApiParams): Promise<TResponse> => apiRequest<TResponse>('get', url, params),
   Post: <TResponse>(url: string, params?: ApiParams): Promise<TResponse> => apiRequest<TResponse>('post', url, params),
   Put: <TResponse>(url: string, params?: ApiParams): Promise<TResponse> => apiRequest<TResponse>('put', url, params),

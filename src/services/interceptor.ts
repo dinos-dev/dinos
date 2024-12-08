@@ -44,6 +44,8 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401) {
       console.log('401 error detected. Attempting to refresh token.')
+      const { updateAccessToken, logout } = useAuthStore.getState()
+
 
       const errorData = error.response.data as ErrorResponseData
       console.log('errorData : ', errorData)
@@ -71,7 +73,6 @@ api.interceptors.response.use(
 
           // 기존 요청을 새 토큰으로 재실행
           console.log('------------기존 API 호출----------')
-          const { updateAccessToken } = useAuthStore.getState()
           updateAccessToken(response.data.result)
           return api({
             ...error.config,
@@ -90,7 +91,6 @@ api.interceptors.response.use(
       } else if (errorData && errorData.error) {
         console.log('errorData.error :', errorData.error)
         Alert.alert('토근이 만료 되었습니다. 다시 로그인해주세요')
-        const { logout } = useAuthStore.getState()
         logout()
         return Promise.reject(error)
       }

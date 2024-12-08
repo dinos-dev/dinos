@@ -4,7 +4,7 @@ import { Button, Text, View } from 'react-native'
 import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import useAuthStore from '../../store/authStore'
-import { User } from '../../services/user'
+import { UserRequest } from '../../services/user'
 
 function MyPageScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<NaviParams>>()
@@ -18,7 +18,7 @@ function MyPageScreen() {
       <Button
         title="유저정보"
         onPress={async () => {
-          const res = await User.Get.info()
+          const res = await UserRequest.Get.info()
           console.log('res : ', res)
         }}
       />

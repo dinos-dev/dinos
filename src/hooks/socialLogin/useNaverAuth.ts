@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import useAuthStore from '../../store/authStore'
-import { Auth } from '../../services/auth'
+import { AuthRequest } from '../../services/auth'
 import NaverLogin from '@react-native-seoul/naver-login'
 import Config from 'react-native-config'
 const consumerKey = Config.NAVER_CONSUMER_KEY
@@ -31,17 +31,16 @@ export const useNaverAuth = () => {
         const userAccessToken = token!.accessToken
         const userInfo = await NaverLogin.getProfile(userAccessToken)
         const { email, id, name } = userInfo.response
-        const res = await Auth.Post.signUp({ email: email, userName: name || '', authType: 'google' })
+        const res = await AuthRequest.Post.signUp({ email: email, userName: name || '사용자', authType: 'naver' })
         if (res) {
           login({
             email: email,
             id: id,
-            name: name || '',
+            name: name || '사용자',
             authType: 'naver',
             accessToken: res.result.accessToken,
             refreshToken: res.result.refreshToken,
           })
-          Alert.alert('로그인에 성공했습니다.')
         }
       }
     } catch (error) {
