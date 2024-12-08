@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Button, Text, View } from 'react-native'
+import { Button, SafeAreaView, Text } from 'react-native'
 import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import useAuthStore from '../../store/authStore'
@@ -11,7 +11,7 @@ function MyPageScreen() {
   const { logout } = useAuthStore()
 
   return (
-    <View>
+    <SafeAreaView>
       <Text style={{ fontSize: 20 }}>마이페이지</Text>
       <Button title="프로필" onPress={() => navigation.navigate(SCREENS.PROFILE_SCREEN)} />
       <Button title="로그아웃" onPress={() => logout()} />
@@ -22,7 +22,7 @@ function MyPageScreen() {
           console.log('res : ', res)
         }}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

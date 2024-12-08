@@ -1,8 +1,10 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { SCREENS } from '../../constants/RoutePath'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { CommonStackParamList } from '../../navigators/common/CommonNavigator'
 import { COLORS } from '../../constants/variables'
+import AppButton from '../../components/common/AppButton'
+import AppText from '../../components/common/AppText'
 
 type AuthHomeScreenProps = NativeStackScreenProps<CommonStackParamList>
 
@@ -14,17 +16,17 @@ function OnboardingScreen({ navigation }: AuthHomeScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.description}>
         <View>
-          <Text style={styles.bigText}>새로운</Text>
-          <Text style={styles.bigText}>식생활의 시대!</Text>
+          <AppText style={styles.bigText}>새로운</AppText>
+          <AppText style={styles.bigText}>식생활의 시대!</AppText>
         </View>
         <View>
-          <Text style={styles.smallText}>식당을 저장할 수 있는 다이노스에서</Text>
-          <Text style={styles.smallText}>당신의 식성을 파악해보세요.</Text>
+          <AppText style={styles.smallText}>식당을 저장할 수 있는 다이노스에서</AppText>
+          <AppText style={styles.smallText}>당신의 식성을 파악해보세요.</AppText>
         </View>
       </View>
-      <TouchableOpacity onPress={moveToLoginPage} style={styles.button}>
-        <Text style={styles.buttonText}>다이노스 시작하기</Text>
-      </TouchableOpacity>
+      <AppButton onPress={moveToLoginPage} style={styles.button} textStyle={styles.buttonText}>
+        다이노스 시작하기
+      </AppButton>
     </SafeAreaView>
   )
 }
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
   },
   bigText: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: 600,
     color: COLORS.white,
   },
   smallText: {
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: COLORS.white,
     fontSize: 16,
-    fontWeight: 'semibold',
+    fontWeight: 600,
   },
 })
 
