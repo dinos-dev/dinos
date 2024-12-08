@@ -8,7 +8,8 @@
     "lint": "eslint src --fix",
     "start": "npx react-native start --reset-cache",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "patch-package"
   },
   "husky": {
     "hooks": {
@@ -29,6 +30,7 @@
     "@react-navigation/native-stack": "^7.0.0",
     "@tanstack/react-query": "^5.59.20",
     "axios": "^1.7.7",
+    "patch-package": "^8.0.0",
     "react": "18.3.1",
     "react-hook-form": "^7.53.2",
     "react-native": "0.76.1",
