@@ -2,14 +2,20 @@ import { Text, TextProps, TextStyle } from 'react-native'
 
 interface IAppTextProps extends TextProps {
   children: React.ReactNode | React.ReactNode[]
-  style?: TextStyle
+  style?: TextStyle | TextStyle[]
 }
 
 const AppText: React.FC<IAppTextProps> = (props) => {
   const convertFontWeight = () => {
-    if (!props.style?.fontWeight) return 'Medium'
+    const fontWeight =
+      props.style &&
+      (Array.isArray(props.style)
+        ? props.style.find((property) => property && 'fontWeight' in property)?.fontWeight
+        : props.style.fontWeight)
 
-    switch (props.style?.fontWeight) {
+    if (!fontWeight) return 'Medium'
+
+    switch (fontWeight) {
       case 300:
         return 'Light'
       case 400:
@@ -26,7 +32,7 @@ const AppText: React.FC<IAppTextProps> = (props) => {
   }
   const fontWeight = convertFontWeight()
   return (
-    <Text {...props} style={{ ...props.style, fontFamily: `Pretendard-${fontWeight}` }}>
+    <Text {...props} style={[props.style, { fontFamily: `Pretendard-${fontWeight}` }]}>
       {props.children}
     </Text>
   )

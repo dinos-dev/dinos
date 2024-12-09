@@ -56,8 +56,6 @@ const styles = StyleSheet.create({
     marginBottom: 35,
     marginHorizontal: 28,
     borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   buttonText: {
     color: COLORS.white,

@@ -3,8 +3,8 @@ import AppText from './AppText'
 
 interface IAppButtonProps extends TouchableOpacityProps {
   children: React.ReactNode | React.ReactNode[]
-  style?: ViewStyle
-  textStyle?: TextStyle
+  style?: ViewStyle | ViewStyle[]
+  textStyle?: TextStyle | TextStyle[]
 }
 
 // 사용 예시
@@ -14,8 +14,8 @@ interface IAppButtonProps extends TouchableOpacityProps {
 
 const AppButton: React.FC<IAppButtonProps> = (props) => {
   return (
-    <TouchableOpacity {...props} style={{ ...props.style }}>
-      <AppText style={{ ...props.textStyle, textAlign: 'center' }}>{props.children}</AppText>
+    <TouchableOpacity {...props} style={[props.style, { justifyContent: 'center', alignItems: 'center' }]}>
+      <AppText style={props.textStyle}>{props.children}</AppText>
     </TouchableOpacity>
   )
 }
