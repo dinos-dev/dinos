@@ -7,6 +7,9 @@ export type NaviParams = {
   // Matzip Screens
   [SCREENS.MATZIP_LIST_SCREEN]: undefined
 
+  // Gallery Screens
+  [SCREENS.GALLERY_SCREEN]: undefined
+
   // MyPage Screens
   [SCREENS.MY_PAGE_SCREEN]: undefined
   [SCREENS.PROFILE_SCREEN]: undefined

@@ -5,6 +5,7 @@ import MatZipSharedStack from './sharedStack/MatZipSharedStack'
 import { View } from 'react-native'
 import { DinoIcon, GalleryIcon, HeartIcon, HomeIcon } from '../../assets/icons/navBarIcon'
 import { COLORS } from '../../constants/variables'
+import GallerySharedStack from './sharedStack/GallerySharedStack'
 
 const Tab = createBottomTabNavigator()
 
@@ -49,7 +50,7 @@ function MainTabNavigator() {
       />
       <Tab.Screen
         name="갤러리"
-        component={MyPageSharedStack}
+        component={GallerySharedStack}
         options={{
           headerTitle: '',
           headerShown: false,
