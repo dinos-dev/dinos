@@ -4,7 +4,7 @@ import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
 
 export const useAppleAuth = () => {
-  const { login } = useAuthStore()
+  const { login, appleUser } = useAuthStore()
   const [loading, setLoading] = useState(false)
 
   const loginWithApple = async () => {
@@ -14,40 +14,58 @@ export const useAppleAuth = () => {
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
       })
-      console.log('appleAuthRequestResponse : ', appleAuthRequestResponse)
+      // console.log('appleAuthRequestResponse : ', appleAuthRequestResponse)
       const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user)
-      console.log('credentialState : ', credentialState)
       const { email, fullName, user } = appleAuthRequestResponse
 
-      const name = `${fullName?.givenName ?? ''} ${fullName?.familyName ?? ''}`.trim()
-
       /**
        * @TODO
-       * 개발용
+       * 개발용도는 아래 코드 주석
        */
-      const res = await AuthRequest.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
-      if (res) {
-        login({
-          email: email ?? '',
-          id: 'test',
-          name: 'test',
+      // if (credentialState !== appleAuth.State.AUTHORIZED) { Alert.alert('로그인에 실패했습니다.'); return; }
+      console.log('appleUser :', appleUser)
+
+      if (appleUser) {
+        console.log('appleUser :', appleUser)
+        const res = await AuthRequest.Post.signUp({
+          email: appleUser.email,
+          userName: appleUser.name,
           authType: 'apple',
-          accessToken: res.result.accessToken,
-          refreshToken: res.result.refreshToken,
         })
+        console.log('AuthRequest.Post.signUp res : ', res)
+        if (res) {
+          login(
+            {
+              email: appleUser.email,
+              id: appleUser.id,
+              name: appleUser.name,
+              accessToken: res.result.accessToken,
+              refreshToken: res.result.refreshToken,
+            },
+            'apple',
+          )
+        }
+      } else {
+        const name = `${fullName?.givenName ?? ''} ${fullName?.familyName ?? ''}`.trim()
+        const res = await AuthRequest.Post.signUp({
+          email: email ?? 'test@gmail.com',
+          userName: name || '사용자',
+          authType: 'apple',
+        })
+        console.log('AuthRequest.Post.signUp res : ', res)
+        if (res) {
+          login(
+            {
+              email: email ?? 'test@gmail.com',
+              id: user,
+              name: name || '사용자',
+              accessToken: res.result.accessToken,
+              refreshToken: res.result.refreshToken,
+            },
+            'apple',
+          )
+        }
       }
-
-      /**
-       * @TODO
-       * 실제 배포용
-       */
-      // if (credentialState === appleAuth.State.AUTHORIZED) {
-      //     const { email, fullName, user } = appleAuthRequestResponse
-      //     const name = `${fullName?.givenName ?? ''} ${fullName?.familyName ?? ''}`.trim()
-      //     login({ email: email ?? '', id: user, name, authType: 'apple' })
-      // } else {
-      //     Alert.alert('로그인에 실패했습니다.')
-      // }
     } catch (error) {
       // Alert.alert('Apple 로그인 중 문제가 발생했습니다.')
     } finally {

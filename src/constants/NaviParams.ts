@@ -10,6 +10,7 @@ export type NaviParams = {
   // MyPage Screens
   [SCREENS.MY_PAGE_SCREEN]: undefined
   [SCREENS.PROFILE_SCREEN]: undefined
+  [SCREENS.WITHDRAWAL_SCREEN]: undefined
 
   // dangerouslyGetState: any;
 }

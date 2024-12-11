@@ -20,18 +20,21 @@ export const useGoogleAuth = () => {
     setLoading(true)
     try {
       const userInfo = await GoogleSignin.signIn()
+      console.log('userInfo : ', userInfo)
       if (userInfo.data) {
         const { email, id, name } = userInfo.data.user
         const res = await AuthRequest.Post.signUp({ email: email, userName: name || '사용자', authType: 'google' })
         if (res) {
-          login({
-            email: email,
-            id: id,
-            name: name || '사용자',
-            authType: 'google',
-            accessToken: res.result.accessToken,
-            refreshToken: res.result.refreshToken,
-          })
+          login(
+            {
+              email: email,
+              id: id,
+              name: name || '사용자',
+              accessToken: res.result.accessToken,
+              refreshToken: res.result.refreshToken,
+            },
+            'google',
+          )
         }
       }
     } catch (error) {
