@@ -5,6 +5,7 @@ import MatZipSharedStack from './sharedStack/MatZipSharedStack'
 import { View } from 'react-native'
 import { DinoIcon, GalleryIcon, HeartIcon, HomeIcon } from '../../assets/icons/navBarIcon'
 import { COLORS } from '../../constants/variables'
+import GallerySharedStack from './sharedStack/GallerySharedStack'
 
 const Tab = createBottomTabNavigator()
 
@@ -25,7 +26,7 @@ function MainTabNavigator() {
           headerShown: false,
           tabBarActiveTintColor: COLORS.dinosRed,
           tabBarInactiveTintColor: COLORS.deactivated,
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <View>
               <HomeIcon fill={color} />
             </View>
@@ -33,14 +34,14 @@ function MainTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="찜"
+        name="리스트"
         component={MatZipSharedStack}
         options={{
           headerTitle: '',
           headerShown: false,
           tabBarActiveTintColor: COLORS.dinosRed,
           tabBarInactiveTintColor: COLORS.deactivated,
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <View>
               <HeartIcon fill={color} />
             </View>
@@ -49,13 +50,13 @@ function MainTabNavigator() {
       />
       <Tab.Screen
         name="갤러리"
-        component={MyPageSharedStack}
+        component={GallerySharedStack}
         options={{
           headerTitle: '',
           headerShown: false,
           tabBarActiveTintColor: COLORS.dinosRed,
           tabBarInactiveTintColor: COLORS.deactivated,
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <View>
               <GalleryIcon fill={color} />
             </View>
@@ -63,14 +64,14 @@ function MainTabNavigator() {
         }}
       />
       <Tab.Screen
-        name="다이노"
+        name="마이다이노"
         component={MyPageSharedStack}
         options={{
           headerTitle: '',
           headerShown: false,
           tabBarActiveTintColor: COLORS.dinosRed,
           tabBarInactiveTintColor: COLORS.deactivated,
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color }) => (
             <View>
               <DinoIcon fill={color} />
             </View>

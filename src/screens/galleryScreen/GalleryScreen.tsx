@@ -1,8 +1,8 @@
 import { SafeAreaView, StyleSheet, View } from 'react-native'
-import { DinoIcon } from '../../assets/icons/navBarIcon'
 import AppText from '../../components/common/AppText'
+import { DinoIcon } from '../../assets/icons/navBarIcon'
 
-function MatzipListScreen() {
+function GalleryScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default MatzipListScreen
+export default GalleryScreen

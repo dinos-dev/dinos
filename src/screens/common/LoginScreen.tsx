@@ -1,9 +1,12 @@
-import { Button, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View, Text, Platform } from 'react-native'
-import { GoogleSigninButton } from '@react-native-google-signin/google-signin'
+import { SafeAreaView, StyleSheet, View, Platform, Image } from 'react-native'
 import useAuthStore from '../../store/authStore'
 import { useAppleAuth, useGoogleAuth, useNaverAuth } from '../../hooks/socialLogin'
-import { AppleButton } from '@invertase/react-native-apple-authentication'
 import { AuthRequest } from '../../services/auth'
+import { COLORS } from '../../constants/variables'
+import AppButton from '../../components/common/AppButton'
+import { WelcomeText } from '../../assets/icons/TextSvg'
+import AppText from '../../components/common/AppText'
+import welcomeDino from '../../assets/image/welcomeDino.png'
 
 function LoginScreen() {
   const { login } = useAuthStore()
@@ -28,29 +31,47 @@ function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput autoFocus placeholder="이메일" />
-        <TextInput placeholder="비밀번호" />
+      <View style={styles.imageSection}>
+        <Image source={welcomeDino} />
       </View>
-      <Button title="테스트용 로그인" onPress={loginTest} />
-      {Platform.OS === 'ios' && (
-        <AppleButton
-          buttonStyle={AppleButton.Style.BLACK}
-          buttonType={AppleButton.Type.SIGN_IN}
-          style={{ width: '100%', height: 45 }}
-          onPress={loginWithApple}
-          // disabled={appleLoginLoading}
-        />
-      )}
-      <GoogleSigninButton
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={loginWithGoogle}
-        // disabled={}
-      />
-      <TouchableOpacity style={styles.naver} onPress={loginWithNaver}>
-        <Text style={styles.naverText}>네이버 로그인</Text>
-      </TouchableOpacity>
+      <View style={styles.loginSection}>
+        <View style={styles.welcome}>
+          <WelcomeText />
+          <AppText style={styles.desc}>찜한 식당으로 보는 나의 식성, 다이노스입니다.</AppText>
+        </View>
+        <View style={styles.buttons}>
+          {Platform.OS === 'ios' && (
+            <AppButton
+              style={[styles.buttonSize, styles.appleButton]}
+              textStyle={[styles.buttonText, { color: 'white' }]}
+              onPress={loginWithApple}
+            >
+              Apple 로그인
+            </AppButton>
+          )}
+          <AppButton
+            style={[styles.buttonSize, styles.googleButton]}
+            textStyle={styles.buttonText}
+            onPress={loginWithGoogle}
+          >
+            구글 로그인
+          </AppButton>
+          <AppButton
+            style={[styles.buttonSize, styles.naverButton]}
+            textStyle={styles.buttonText}
+            onPress={loginWithNaver}
+          >
+            네이버 로그인
+          </AppButton>
+          {/* <AppButton
+            style={[styles.buttonSize, styles.kakaoButton]}
+            textStyle={styles.buttonText}
+            onPress={loginWithNaver}
+          >
+            카카오 로그인
+          </AppButton> */}
+        </View>
+      </View>
     </SafeAreaView>
   )
 }
@@ -58,21 +79,51 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 30,
+    backgroundColor: 'black',
   },
-  inputContainer: {
-    gap: 20,
-    marginBottom: 30,
-  },
-  naver: {
-    backgroundColor: 'green',
-    height: 30,
-    flexDirection: 'column',
-    justifyContent: 'center',
+  imageSection: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  naverText: {
+  loginSection: {
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 45,
+    paddingHorizontal: 28,
+    backgroundColor: COLORS.dinosRed,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+  },
+  welcome: {
+    gap: 12,
+  },
+  desc: {
     color: 'white',
+    fontSize: 10,
+  },
+  buttons: {
+    gap: 12,
+  },
+  buttonSize: {
+    width: '100%',
+    height: 45,
+  },
+  appleButton: {
+    backgroundColor: 'black',
+  },
+  googleButton: {
+    backgroundColor: 'white',
+  },
+  naverButton: {
+    backgroundColor: '#00DE5A',
+  },
+  kakaoButton: {
+    backgroundColor: '#FFFB00',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 600,
   },
 })
 

@@ -11,6 +11,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        //스냅샷
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
@@ -18,5 +20,9 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
     }
 }
-
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
 apply plugin: "com.facebook.react.rootproject"

@@ -5,6 +5,9 @@ export enum SCREENS {
   // Matzip Screens
   MATZIP_LIST_SCREEN = 'matzip-list-screen',
 
+  // Gallery Screens
+  GALLERY_SCREEN = 'gallery-screen',
+
   // MyPage Screens
   MY_PAGE_SCREEN = 'my-page-screen',
   PROFILE_SCREEN = 'profile-screen',
