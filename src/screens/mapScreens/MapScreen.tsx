@@ -1,7 +1,7 @@
 import Geolocation from 'react-native-geolocation-service'
 import { useEffect, useRef, useState } from 'react'
 import { Alert, Pressable, StyleSheet, View } from 'react-native'
-import MapView, { Callout, LatLng, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Callout, LatLng, MapMarker, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MapBottomSheet from '../../components/modal/MapBottomSheet'
 import {
   GooglePlacesAutocomplete,
@@ -23,6 +23,8 @@ const getPlacePhotoUrl = (photoReference: string): string => {
 
 function MapScreen() {
   const mapRef = useRef<MapView | null>(null)
+  const markerRef = useRef<MapMarker | null>(null)
+
   const [userLocation, setUserLocation] = useState<LatLng>({
     latitude: 37.571389,
     longitude: 126.977778,
@@ -84,6 +86,10 @@ function MapScreen() {
     }
   }
 
+  const doRedraw = () => {
+    markerRef.current?.redraw()
+  }
+
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
@@ -135,12 +141,15 @@ function MapScreen() {
         {selectedLocation && (
           <Callout>
             <Marker
+              ref={markerRef}
               draggable
               coordinate={selectedLocation}
               title="선택위치"
               description="지도를 클릭해 선택한 위치"
               onPress={() => Alert.alert('마커 클릭')}
-              tracksViewChanges={false}
+              tracksViewChanges={false} //안드로이드 마커 깜빡임 방지-마커표시안됨
+              tracksInfoWindowChanges={false}
+              onLayout={doRedraw} //안드로이드 마커 표시
             >
               <ChefDinoMarkerIcon fill={COLORS.dinosRed} />
             </Marker>
