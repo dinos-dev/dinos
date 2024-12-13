@@ -7,7 +7,7 @@ function MembersNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name={SCREENS.MAP_SCREEN}
+        name={SCREENS.HOME_SCREEN}
         component={MainTabNavigator}
         options={{
           headerTitle: '', //뒤로가기에 이름 안보이게

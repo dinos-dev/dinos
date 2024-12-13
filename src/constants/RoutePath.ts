@@ -1,4 +1,7 @@
 export enum SCREENS {
+  // Home Screens
+  HOME_SCREEN = 'home-screen',
+
   // Map Screens
   MAP_SCREEN = 'map-screen',
 

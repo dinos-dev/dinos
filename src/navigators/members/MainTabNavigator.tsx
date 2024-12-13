@@ -3,9 +3,10 @@ import MapSharedStack from '../members/sharedStack/MapSharedStack'
 import MyPageSharedStack from './sharedStack/MyPageSharedStack'
 import MatZipSharedStack from './sharedStack/MatZipSharedStack'
 import { View } from 'react-native'
-import { DinoIcon, GalleryIcon, HeartIcon, HomeIcon } from '../../assets/icons/navBarIcon'
+import { DinoIcon, GalleryIcon, HeartIcon, HomeIcon, MapIcon } from '../../assets/icons/navBarIcon'
 import { COLORS } from '../../constants/variables'
 import GallerySharedStack from './sharedStack/GallerySharedStack'
+import HomeSharedStack from './sharedStack/HomeSharedStack'
 
 const Tab = createBottomTabNavigator()
 
@@ -20,7 +21,7 @@ function MainTabNavigator() {
     >
       <Tab.Screen
         name="홈"
-        component={MapSharedStack}
+        component={HomeSharedStack}
         options={{
           headerTitle: '',
           headerShown: false,
@@ -29,6 +30,21 @@ function MainTabNavigator() {
           tabBarIcon: ({ color }) => (
             <View>
               <HomeIcon fill={color} />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="맵"
+        component={MapSharedStack}
+        options={{
+          headerTitle: '',
+          headerShown: false,
+          tabBarActiveTintColor: COLORS.dinosRed,
+          tabBarInactiveTintColor: COLORS.deactivated,
+          tabBarIcon: ({ color }) => (
+            <View>
+              <MapIcon fill={color} />
             </View>
           ),
         }}
