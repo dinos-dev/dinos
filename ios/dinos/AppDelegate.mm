@@ -1,17 +1,28 @@
 #import "AppDelegate.h"
-
 #import <React/RCTBundleURLProvider.h>
+#import <NaverThirdPartyLogin/NaverThirdPartyLoginConnection.h>
+#import <GoogleSignIn/GoogleSignIn.h>
+#import <GoogleMaps/GoogleMaps.h> //애플지도 대신 구글맵 사용하기 위한 import
+#import "RNCConfig.h" // 환경변수
+#import "RNSplashScreen.h" // 스플래시 스크린
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [GMSServices provideAPIKey:[RNCConfig envFor:@"MAPS_IOS_API_KEY"]];
   self.moduleName = @"dinos";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
 
-  return [super application:application didFinishLaunchingWithOptions:launchOptions];
+  // return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  BOOL ret = [super application:application didFinishLaunchingWithOptions:launchOptions]; //스플래시스크린
+  if (ret == YES) {
+    [RNSplashScreen show]; 
+  }
+  return ret;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -28,4 +39,16 @@
 #endif
 }
 
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  // naver
+  if ([url.scheme isEqualToString:@"naverlogin"]) {
+    return [[NaverThirdPartyLoginConnection getSharedInstance] application:application openURL:url options:options];
+  }
+  // google
+  return [GIDSignIn.sharedInstance handleURL:url];
+}
+
 @end
+
