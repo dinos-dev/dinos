@@ -1,11 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Button, SafeAreaView, StyleSheet, Text } from 'react-native'
+import { SafeAreaView, StyleSheet } from 'react-native'
 import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
-import { UserRequest } from '../../services/user'
 import AppButton from '../../components/common/AppButton'
 import AppText from '../../components/common/AppText'
 import { COLORS } from '../../constants/variables'
@@ -24,13 +23,21 @@ function MyPageScreen() {
   return (
     <SafeAreaView>
       <AppText style={styles.title}>마이페이지</AppText>
-      <AppButton onPress={()=>navigation.navigate(SCREENS.PROFILE_SCREEN)} style={styles.button} textStyle={styles.buttonText}>
+      <AppButton
+        onPress={() => navigation.navigate(SCREENS.PROFILE_SCREEN)}
+        style={styles.button}
+        textStyle={styles.buttonText}
+      >
         프로필
       </AppButton>
-      <AppButton onPress={()=>navigation.navigate(SCREENS.WITHDRAWAL_SCREEN)} style={styles.button} textStyle={styles.buttonText}>
+      <AppButton
+        onPress={() => navigation.navigate(SCREENS.WITHDRAWAL_SCREEN)}
+        style={styles.button}
+        textStyle={styles.buttonText}
+      >
         회원탈퇴
       </AppButton>
-      <AppButton onPress={()=>logoutHandler()} style={styles.button} textStyle={styles.buttonText}>
+      <AppButton onPress={() => logoutHandler()} style={styles.button} textStyle={styles.buttonText}>
         로그아웃
       </AppButton>
     </SafeAreaView>
@@ -54,5 +61,5 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  }
+  },
 })
