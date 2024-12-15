@@ -32,14 +32,16 @@ export const useNaverAuth = () => {
         const { email, id, name } = userInfo.response
         const res = await AuthRequest.Post.signUp({ email: email, userName: name || '사용자', authType: 'naver' })
         if (res) {
-          login({
-            email: email,
-            id: id,
-            name: name || '사용자',
-            authType: 'naver',
-            accessToken: res.result.accessToken,
-            refreshToken: res.result.refreshToken,
-          })
+          login(
+            {
+              email: email,
+              id: id,
+              name: name || '사용자',
+              accessToken: res.result.accessToken,
+              refreshToken: res.result.refreshToken,
+            },
+            'naver',
+          )
         }
       }
     } catch (error) {

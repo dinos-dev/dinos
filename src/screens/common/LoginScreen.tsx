@@ -18,14 +18,14 @@ function LoginScreen() {
     const res = await AuthRequest.Post.signUp({ email: 'test@gmail.com', userName: 'test', authType: 'apple' })
     console.log('res : ', res.result)
     if (res) {
-      login({
-        email: 'test@gmail.com',
-        id: 'test',
-        name: 'test',
-        authType: 'apple',
-        accessToken: res.result.accessToken,
-        refreshToken: res.result.refreshToken,
-      })
+      // login({
+      //   email: 'test@gmail.com',
+      //   id: 'test',
+      //   name: 'test',
+      //   authType: 'apple',
+      //   accessToken: res.result.accessToken,
+      //   refreshToken: res.result.refreshToken,
+      // })
     }
   }
 

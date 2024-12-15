@@ -11,6 +11,7 @@ export enum SCREENS {
   // MyPage Screens
   MY_PAGE_SCREEN = 'my-page-screen',
   PROFILE_SCREEN = 'profile-screen',
+  WITHDRAWAL_SCREEN = 'withdrawal-screen',
 
   // Auth Screens
   ONBOARDING_SCREEN = 'onboarding-screen',
