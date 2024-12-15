@@ -1,6 +1,9 @@
 import { SCREENS } from './RoutePath'
 
 export type NaviParams = {
+  // Home Screens
+  [SCREENS.HOME_SCREEN]: undefined
+
   // Map Screens
   [SCREENS.MAP_SCREEN]: undefined
 

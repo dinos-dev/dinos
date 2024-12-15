@@ -1,7 +1,7 @@
 import Geolocation from 'react-native-geolocation-service'
 import { useEffect, useRef, useState } from 'react'
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
-import MapView, { Callout, LatLng, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import { Alert, Pressable, StyleSheet, View } from 'react-native'
+import MapView, { Callout, LatLng, MapMarker, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MapBottomSheet from '../../components/modal/MapBottomSheet'
 import {
   GooglePlacesAutocomplete,
@@ -13,6 +13,8 @@ import 'react-native-get-random-values'
 import Config from 'react-native-config'
 import { ExtendedGooglePlaceDetail } from '../../types/map'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { ChefDinoMarkerIcon, DinoMarkerIcon, GpsIcon } from '../../assets/icons/mapStackIcon'
+import { COLORS } from '../../constants/variables'
 
 // 장소 사진 URL 생성 함수
 const getPlacePhotoUrl = (photoReference: string): string => {
@@ -21,6 +23,8 @@ const getPlacePhotoUrl = (photoReference: string): string => {
 
 function MapScreen() {
   const mapRef = useRef<MapView | null>(null)
+  const markerRef = useRef<MapMarker | null>(null)
+
   const [userLocation, setUserLocation] = useState<LatLng>({
     latitude: 37.571389,
     longitude: 126.977778,
@@ -82,6 +86,10 @@ function MapScreen() {
     }
   }
 
+  const doRedraw = () => {
+    markerRef.current?.redraw()
+  }
+
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
@@ -133,15 +141,17 @@ function MapScreen() {
         {selectedLocation && (
           <Callout>
             <Marker
+              ref={markerRef}
               draggable
               coordinate={selectedLocation}
               title="선택위치"
               description="지도를 클릭해 선택한 위치"
               onPress={() => Alert.alert('마커 클릭')}
+              tracksViewChanges={false} //안드로이드 마커 깜빡임 방지-마커표시안됨
+              tracksInfoWindowChanges={false}
+              onLayout={doRedraw} //안드로이드 마커 표시
             >
-              <View style={styles.markerContainer}>
-                <View style={[styles.marker, { backgroundColor: 'deeppink' }]}></View>
-              </View>
+              <ChefDinoMarkerIcon fill={COLORS.dinosRed} />
             </Marker>
           </Callout>
         )}
@@ -149,20 +159,23 @@ function MapScreen() {
         <Marker
           draggable
           coordinate={{ latitude: 37.561389, longitude: 126.977778 }}
-          title="마커"
-          description="리스트 1에 저장된 위치"
-        />
+          title={'리스트 1에 저장된 마커 이름'}
+          description={'리스트 1에 저장된 위치'}
+          zIndex={10} // 임시 zindex, 저장된 위치 클릭 시 위치선택 마커 표시하지 않도록 처리 필요
+        >
+          <DinoMarkerIcon fill={'#FFC540'} />
+        </Marker>
       </MapView>
 
       <View style={styles.buttonBox}>
-        <Pressable style={styles.mylocation} onPress={() => setModalOpen(true)}>
+        {/* <Pressable style={styles.sideButton} onPress={() => setModalOpen(true)}>
           <Text style={styles.icon}>📝</Text>
-        </Pressable>
+        </Pressable> */}
         <Pressable
-          style={styles.mylocation}
+          style={styles.sideButton}
           onPress={() => MoveToCurrentLocation(userLocation.latitude, userLocation.longitude)}
         >
-          <Text style={styles.icon}>🌐</Text>
+          <GpsIcon />
         </Pressable>
       </View>
 
@@ -208,30 +221,20 @@ const styles = StyleSheet.create({
   },
   buttonBox: {
     position: 'absolute',
+    right: 20,
     flexDirection: 'column',
     alignItems: 'center',
     bottom: 20,
     flex: 1,
+    gap: 20,
     width: '20%',
   },
-  mylocation: {
-    flex: 0.1,
+  sideButton: {
     padding: 10,
-    backgroundColor: 'pink',
+    backgroundColor: COLORS.white,
+    boxShadow: '0 1 4 0 rgba(0, 0, 0, 0.25)',
+    elevation: 4,
     borderRadius: 50,
-  },
-  icon: {
-    fontSize: 30,
-  },
-  markerContainer: {
-    height: 35,
-    width: 32,
-    alignItems: 'center',
-  },
-  marker: {
-    width: 27,
-    height: 27,
-    borderRadius: 27,
   },
 })
 
