@@ -2,6 +2,7 @@ import appleAuth from '@invertase/react-native-apple-authentication'
 import { useState } from 'react'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
+import { Alert } from 'react-native'
 
 export const useAppleAuth = () => {
   const { login, appleUser } = useAuthStore()
@@ -22,7 +23,7 @@ export const useAppleAuth = () => {
        * @TODO
        * 개발용도는 아래 코드 주석
        */
-      // if (credentialState !== appleAuth.State.AUTHORIZED) { Alert.alert('로그인에 실패했습니다.'); return; }
+      if (credentialState !== appleAuth.State.AUTHORIZED) { Alert.alert('로그인에 실패했습니다.'); return; }
       console.log('appleUser :', appleUser)
 
       if (appleUser) {
