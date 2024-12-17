@@ -1,49 +1,4 @@
-// import { create } from 'zustand'
-// import { persist, createJSONStorage } from 'zustand/middleware'
-// import AsyncStorage from '@react-native-async-storage/async-storage'
-
-// interface User {
-//   id: string
-//   name: string
-//   email: string
-//   authType: 'google' | 'naver' | 'apple'
-//   accessToken: string
-//   refreshToken: string
-// }
-
-// interface AuthState {
-//   user: User | null
-//   isAuthenticated: boolean
-//   login: (user: User) => void
-//   logout: () => void
-//   updateAccessToken: (newAccessToken: string) => void
-// }
-
-// const useAuthStore = create(
-//   persist<AuthState>(
-//     (set, get) => ({
-//       user: null,
-//       isAuthenticated: false,
-//       login: (user: User) => set({ user, isAuthenticated: true }),
-//       logout: () => set({ user: null, isAuthenticated: false }),
-//       updateAccessToken: (newAccessToken: string) => {
-//         const currentUser = get().user
-//         if (!currentUser) return
-//         const updatedUser = { ...currentUser, accessToken: newAccessToken } // 기존 값 유지하고 accessToken만 변경
-//         set({ user: updatedUser }) // 상태 업데이트
-//       },
-//     }),
-//     {
-//       name: 'auth-storage', // 로컬 스토리지에 저장될 키 이름
-//       storage: createJSONStorage(() => AsyncStorage),
-//     },
-//   ),
-// )
-
-// export default useAuthStore
-
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-// Apple과 Naver 관련 로그아웃 로직은 관련 패키지를 임포트해야 함
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -64,7 +19,7 @@ interface AuthState {
   isAuthenticated: boolean
   login: (user: User, authType: 'google' | 'apple' | 'naver') => void
   logout: () => Promise<void>
-  updateAccessToken: (newAccessToken: string, authType: 'google' | 'apple' | 'naver') => void
+  updateAccessToken: (newAccessToken: string) => void
 }
 
 const useAuthStore = create(
@@ -103,14 +58,35 @@ const useAuthStore = create(
           })
         }
       },
-      updateAccessToken: (newAccessToken: string, authType: 'google' | 'apple' | 'naver') => {
+      // updateAccessToken: (newAccessToken: string, authType: 'google' | 'apple' | 'naver') => {
+      //   const state = get()
+      //   const currentUser = state[`${authType}User`]
+      //   if (!currentUser) return
+      //   set({
+      //     ...state,
+      //     [`${authType}User`]: { ...currentUser, accessToken: newAccessToken },
+      //   })
+      // },
+      updateAccessToken: (newAccessToken: string) => {
         const state = get()
-        const currentUser = state[`${authType}User`]
-        if (!currentUser) return
-        set({
-          ...state,
-          [`${authType}User`]: { ...currentUser, accessToken: newAccessToken },
-        })
+        const { googleUser, appleUser, naverUser } = state
+
+        if (googleUser) {
+          set({
+            ...state,
+            googleUser: { ...googleUser, accessToken: newAccessToken },
+          })
+        } else if (appleUser) {
+          set({
+            ...state,
+            appleUser: { ...appleUser, accessToken: newAccessToken },
+          })
+        } else if (naverUser) {
+          set({
+            ...state,
+            naverUser: { ...naverUser, accessToken: newAccessToken },
+          })
+        }
       },
     }),
     {
