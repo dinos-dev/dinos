@@ -5,6 +5,7 @@
 # env
 #
 .env
+keystore.properties
 
 # Xcode
 #

@@ -20,7 +20,7 @@ class MainActivity : ReactActivity() {
    * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
-      DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+      DefaultReactActivityDelegate(this, mainComponentName) //, fabricEnabled 비활성화 (gradle.properties)
 
    override fun onCreate(savedInstanceState: Bundle?) { //스플래시스크린 초기화
     SplashScreen.show(this)
