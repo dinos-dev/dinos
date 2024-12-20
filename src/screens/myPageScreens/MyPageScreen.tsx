@@ -1,13 +1,12 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { Image, SafeAreaView, StyleSheet, View } from 'react-native'
+import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
 import AppButton from '../../components/common/AppButton'
 import { COLORS } from '../../constants/variables'
-import welcomeDino from '../../assets/image/welcomeDino.png'
 import AppText from '../../components/common/AppText'
 
 function MyPageScreen() {
