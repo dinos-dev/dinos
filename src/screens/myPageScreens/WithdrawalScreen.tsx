@@ -31,11 +31,9 @@ function WithdrawalScreen() {
         {
           text: '확인',
           onPress: async () => {
-            const res = await UserRequest.Delete.withdrawal()
-            if (res) {
-              Alert.alert('회원탈퇴가 완료되었습니다.')
-              logout()
-            }
+            await UserRequest.Delete.withdrawal()
+            Alert.alert('회원탈퇴가 완료되었습니다.')
+            logout()
           },
         },
       ],
