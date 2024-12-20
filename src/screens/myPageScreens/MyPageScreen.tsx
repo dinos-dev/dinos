@@ -1,28 +1,30 @@
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { Image, SafeAreaView, StyleSheet, View } from 'react-native'
 import { SafeAreaView, StyleSheet, View } from 'react-native'
 import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import useAuthStore from '../../store/authStore'
 import { AuthRequest } from '../../services/auth'
 import AppButton from '../../components/common/AppButton'
-import AppText from '../../components/common/AppText'
 import { COLORS } from '../../constants/variables'
+import welcomeDino from '../../assets/image/welcomeDino.png'
 
 function MyPageScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<NaviParams>>()
   const { logout } = useAuthStore()
 
   const logoutHandler = async () => {
-    const res = await AuthRequest.Post.logout()
-    if (res) {
-      logout()
-    }
+    await AuthRequest.Post.logout()
+    logout()
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <AppText style={styles.title}>마이페이지</AppText>
+      <View style={styles.imageSection}>
+        <Image source={welcomeDino} />
+      </View>
       <View style={styles.buttonGroup}>
         <AppButton
           onPress={() => navigation.navigate(SCREENS.PROFILE_SCREEN)}
@@ -51,6 +53,16 @@ export default MyPageScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.dark,
+  },
+  imageSection: {
+    flex: 0.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 100,
+    height: 100,
   },
   buttonGroup: {
     flex: 1,
@@ -64,8 +76,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
-    height: 45,
   },
   buttonText: {
     color: COLORS.white,

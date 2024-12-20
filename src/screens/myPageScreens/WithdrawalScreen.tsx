@@ -7,6 +7,7 @@ import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import { UserRequest } from '../../services/user'
 import useAuthStore from '../../store/authStore'
+import { COLORS } from '../../constants/variables'
 
 function WithdrawalScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<NaviParams>>()
@@ -64,10 +65,10 @@ function WithdrawalScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  container: { flex: 1, padding: 20, backgroundColor: COLORS.dark },
   backButton: {
     position: 'absolute',
-    top: 20,
+    top: 30,
     left: 10,
     backgroundColor: '#ccc',
     padding: 5,
@@ -75,10 +76,17 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   backButtonText: { color: '#333', fontSize: 12 },
-  title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 50,
+    marginTop: 10,
+    color: COLORS.white,
+  },
   checkboxContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
   checkboxLabel: { marginLeft: 10, fontSize: 14, color: '#666' },
-  button: { backgroundColor: '#FF6347', padding: 15, borderRadius: 5, alignItems: 'center' },
+  button: { backgroundColor: COLORS.dinosRed, padding: 15, borderRadius: 5, alignItems: 'center' },
   buttonDisabled: { backgroundColor: '#ccc' },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 })

@@ -25,7 +25,7 @@ api.interceptors.request.use(
   async (config: InternalAxiosRequestConfig) => {
     try {
       const accessToken = await getAccessToken()
-      // console.log('token : ', token);
+      console.log('accessToken : ', accessToken)
       if (accessToken && config.headers) {
         config.headers.Authorization = `Bearer ${accessToken}`
       }

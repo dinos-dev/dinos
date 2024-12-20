@@ -5,9 +5,17 @@ export const getAccessToken = async () => {
     const storedData = await AsyncStorage.getItem('auth-storage')
     if (storedData) {
       const parsedData = JSON.parse(storedData)
-      const accessToken = parsedData.state?.user?.accessToken
-      console.log('Access Token:', accessToken)
-      return accessToken
+      console.log('Parsed Data:', parsedData)
+
+      const userTypes = ['appleUser', 'googleUser', 'naverUser']
+      for (const userType of userTypes) {
+        const userData = parsedData.state?.[userType]
+        if (userData) {
+          const accessToken = userData.accessToken
+          console.log(`Access Token (${userType}):`, accessToken)
+          return accessToken
+        }
+      }
     }
   } catch (e) {
     console.error('Error retrieving access token:', e)
@@ -20,9 +28,15 @@ export const getRefreshToken = async () => {
     const storedData = await AsyncStorage.getItem('auth-storage')
     if (storedData) {
       const parsedData = JSON.parse(storedData)
-      const refreshToken = parsedData.state?.user?.refreshToken
-      console.log('Refresh Token:', refreshToken)
-      return refreshToken
+      const userTypes = ['appleUser', 'googleUser', 'naverUser']
+      for (const userType of userTypes) {
+        const userData = parsedData.state?.[userType]
+        if (userData) {
+          const refreshToken = userData.refreshToken
+          console.log(`Refresh Token (${userType}):`, refreshToken)
+          return refreshToken
+        }
+      }
     }
   } catch (e) {
     console.error('Error retrieving refresh token:', e)
