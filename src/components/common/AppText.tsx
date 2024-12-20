@@ -6,6 +6,7 @@ interface IAppTextProps extends TextProps {
 }
 
 const AppText: React.FC<IAppTextProps> = (props) => {
+  //fontWeight은 꼭 숫자로 설정해주세요!
   const convertFontWeight = () => {
     const fontWeight =
       props.style &&

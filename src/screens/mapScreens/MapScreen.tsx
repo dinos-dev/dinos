@@ -1,6 +1,6 @@
 import Geolocation from 'react-native-geolocation-service'
 import { useEffect, useRef, useState } from 'react'
-import { Alert, Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import MapView, { Callout, LatLng, MapMarker, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MapBottomSheet from '../../components/modal/MapBottomSheet'
 import {
@@ -86,10 +86,6 @@ function MapScreen() {
     }
   }
 
-  const doRedraw = () => {
-    markerRef.current?.redraw()
-  }
-
   return (
     <View style={styles.container}>
       <GooglePlacesAutocomplete
@@ -134,22 +130,20 @@ function MapScreen() {
           zoom: 15,
         }}
         onPress={({ nativeEvent }: MapPressEvent) => {
-          console.log(nativeEvent.coordinate)
           setSelectedLocation(nativeEvent.coordinate)
         }}
+        googleRenderer="LEGACY"
       >
         {selectedLocation && (
           <Callout>
             <Marker
               ref={markerRef}
-              draggable
               coordinate={selectedLocation}
               title="선택위치"
               description="지도를 클릭해 선택한 위치"
-              onPress={() => Alert.alert('마커 클릭')}
               tracksViewChanges={false} //안드로이드 마커 깜빡임 방지-마커표시안됨
               tracksInfoWindowChanges={false}
-              onLayout={doRedraw} //안드로이드 마커 표시
+              onLayout={() => markerRef.current?.redraw()}
             >
               <ChefDinoMarkerIcon fill={COLORS.dinosRed} />
             </Marker>
@@ -157,13 +151,18 @@ function MapScreen() {
         )}
 
         <Marker
-          draggable
           coordinate={{ latitude: 37.561389, longitude: 126.977778 }}
           title={'리스트 1에 저장된 마커 이름'}
           description={'리스트 1에 저장된 위치'}
-          zIndex={10} // 임시 zindex, 저장된 위치 클릭 시 위치선택 마커 표시하지 않도록 처리 필요
         >
           <DinoMarkerIcon fill={'#FFC540'} />
+        </Marker>
+        <Marker
+          coordinate={{ latitude: 37.563389, longitude: 126.97764 }}
+          title={'리스트 1에 저장된 마커 이름'}
+          description={'리스트 1에 저장된 위치'}
+        >
+          <DinoMarkerIcon fill={'#6768FC'} />
         </Marker>
       </MapView>
 

@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   loginSection: {
-    flex: 1,
+    flex: 0.8,
     justifyContent: 'space-between',
     paddingVertical: 45,
     paddingHorizontal: 28,
@@ -103,6 +103,8 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   buttons: {
+    flex: 1,
+    justifyContent: 'center',
     gap: 12,
   },
   buttonSize: {

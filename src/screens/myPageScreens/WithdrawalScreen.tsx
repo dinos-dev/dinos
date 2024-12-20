@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { Alert, Text, TouchableOpacity, View, StyleSheet, SafeAreaView } from 'react-native'
 import CheckBox from '@react-native-community/checkbox' // 커뮤니티 체크박스
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -44,7 +44,7 @@ function WithdrawalScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate(SCREENS.MY_PAGE_SCREEN)}>
         <Text style={styles.backButtonText}>뒤로가기</Text>
       </TouchableOpacity>
@@ -60,7 +60,7 @@ function WithdrawalScreen() {
       >
         <Text style={styles.buttonText}>탈퇴하기</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 
