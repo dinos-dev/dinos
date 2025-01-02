@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { Alert, Text, TouchableOpacity, View, StyleSheet, SafeAreaView } from 'react-native'
 import CheckBox from '@react-native-community/checkbox' // 커뮤니티 체크박스
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
@@ -7,6 +7,7 @@ import { NaviParams } from '../../constants/NaviParams'
 import { SCREENS } from '../../constants/RoutePath'
 import { UserRequest } from '../../services/user'
 import useAuthStore from '../../store/authStore'
+import { COLORS } from '../../constants/variables'
 
 function WithdrawalScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<NaviParams>>()
@@ -30,11 +31,9 @@ function WithdrawalScreen() {
         {
           text: '확인',
           onPress: async () => {
-            const res = await UserRequest.Delete.withdrawal()
-            if (res) {
-              Alert.alert('회원탈퇴가 완료되었습니다.')
-              logout()
-            }
+            await UserRequest.Delete.withdrawal()
+            Alert.alert('회원탈퇴가 완료되었습니다.')
+            logout()
           },
         },
       ],
@@ -43,7 +42,7 @@ function WithdrawalScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate(SCREENS.MY_PAGE_SCREEN)}>
         <Text style={styles.backButtonText}>뒤로가기</Text>
       </TouchableOpacity>
@@ -59,15 +58,15 @@ function WithdrawalScreen() {
       >
         <Text style={styles.buttonText}>탈퇴하기</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  container: { flex: 1, padding: 20, backgroundColor: COLORS.dark },
   backButton: {
     position: 'absolute',
-    top: 20,
+    top: 30,
     left: 10,
     backgroundColor: '#ccc',
     padding: 5,
@@ -75,10 +74,17 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   backButtonText: { color: '#333', fontSize: 12 },
-  title: { fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginBottom: 20 },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 50,
+    marginTop: 10,
+    color: COLORS.white,
+  },
   checkboxContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 20 },
   checkboxLabel: { marginLeft: 10, fontSize: 14, color: '#666' },
-  button: { backgroundColor: '#FF6347', padding: 15, borderRadius: 5, alignItems: 'center' },
+  button: { backgroundColor: COLORS.dinosRed, padding: 15, borderRadius: 5, alignItems: 'center' },
   buttonDisabled: { backgroundColor: '#ccc' },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 })
