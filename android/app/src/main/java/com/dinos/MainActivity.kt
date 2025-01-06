@@ -1,4 +1,4 @@
-package com.dinos
+package com.dinosaurs.dinos
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity
