@@ -13,3 +13,5 @@
 # BuildConfig축소 프로세스에서 Java 클래스의 이름을 바꾸고 React Native Config가 참조하지 못하도록 할 수 있습니다. 
 # 이를 방지하려면 다음에 예외를 추가합니다
 -keep class com.dinosaurs.dinos.BuildConfig { *; }
+-keep class * extends com.google.gson.TypeAdapter
+-keep class com.google.googlesignin.** { *; }
