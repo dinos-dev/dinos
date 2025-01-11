@@ -81,13 +81,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.dinos"
+    namespace "com.dinosaurs.dinos"
     defaultConfig {
-        applicationId "com.dinos"
+        applicationId "com.dinosaurs.dinos"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 6
+        versionName "1.0.5"
     }
     signingConfigs {
         debug {
@@ -135,5 +135,11 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+project.ext.envConfigFiles = [
+    // debug: ".env.development",
+    release: ".env.production",
+    anothercustombuild: ".env",
+]
 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
