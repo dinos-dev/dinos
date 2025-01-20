@@ -1,6 +1,6 @@
 import Geolocation from 'react-native-geolocation-service'
 import { useEffect, useRef, useState } from 'react'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Platform, Pressable, StyleSheet, View } from 'react-native'
 import MapView, { Callout, LatLng, MapMarker, MapPressEvent, Marker, PROVIDER_GOOGLE } from 'react-native-maps'
 import MapBottomSheet from '../../components/modal/MapBottomSheet'
 import {
@@ -15,6 +15,9 @@ import { ExtendedGooglePlaceDetail } from '../../types/map'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ChefDinoMarkerIcon, DinoMarkerIcon, GpsIcon } from '../../assets/icons/mapStackIcon'
 import { COLORS } from '../../constants/variables'
+import { usePermission } from '../../hooks/usePermission'
+import { androidPermissions } from '../../constants/permissions'
+import PermissionBackground from '../../components/modal/PermissionBackGround'
 
 // 장소 사진 URL 생성 함수
 const getPlacePhotoUrl = (photoReference: string): string => {
@@ -24,7 +27,6 @@ const getPlacePhotoUrl = (photoReference: string): string => {
 function MapScreen() {
   const mapRef = useRef<MapView | null>(null)
   const markerRef = useRef<MapMarker | null>(null)
-
   const [userLocation, setUserLocation] = useState<LatLng>({
     latitude: 37.571389,
     longitude: 126.977778,
@@ -33,25 +35,34 @@ function MapScreen() {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
   const [modalDetails, setModalDetails] = useState<ExtendedGooglePlaceDetail>()
   const googlePlacesAutocompleteRef = useRef<GooglePlacesAutocompleteRef>(null)
-
   const inset = useSafeAreaInsets()
 
+  const { getPermission, check, permissionOpen, permissionDescription } = usePermission()
+
   useEffect(() => {
-    //내 위치 구하고 지도를 내 위치로 이동
-    Geolocation.getCurrentPosition(
-      (info) => {
-        console.log(info)
-        const { latitude, longitude } = info.coords
-        setUserLocation({ latitude, longitude })
-        MoveToCurrentLocation(latitude, longitude)
-      },
-      (err) => {
-        console.log(err)
-      },
-      {
-        enableHighAccuracy: true,
-      },
-    )
+    const requestPermission = async () => {
+      const status = await getPermission({ permissionType: 'location' })
+      const androidAlterStatus = Platform.OS === 'android' ? await check(androidPermissions.coarseLocation) : false
+      if (!status && !androidAlterStatus) return
+    }
+    const getLocation = () => {
+      Geolocation.getCurrentPosition(
+        (info) => {
+          const { latitude, longitude } = info.coords
+          setUserLocation({ latitude, longitude })
+          if (mapRef.current) {
+            MoveToCurrentLocation(latitude, longitude)
+          }
+        },
+        (err) => console.log(err),
+        {
+          enableHighAccuracy: true,
+        },
+      )
+    }
+    requestPermission().then(() => {
+      if (mapRef.current) return getLocation()
+    })
   }, [])
 
   const MoveToCurrentLocation = (latitude: number, longitude: number) => {
@@ -85,6 +96,8 @@ function MapScreen() {
       console.log('Details not available')
     }
   }
+
+  if (permissionOpen) return <PermissionBackground description={permissionDescription} />
 
   return (
     <View style={styles.container}>
@@ -167,9 +180,6 @@ function MapScreen() {
       </MapView>
 
       <View style={styles.buttonBox}>
-        {/* <Pressable style={styles.sideButton} onPress={() => setModalOpen(true)}>
-          <Text style={styles.icon}>📝</Text>
-        </Pressable> */}
         <Pressable
           style={styles.sideButton}
           onPress={() => MoveToCurrentLocation(userLocation.latitude, userLocation.longitude)}

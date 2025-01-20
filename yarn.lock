@@ -4763,6 +4763,7 @@ __metadata:
     react-native-get-random-values: ^1.11.0
     react-native-google-places-autocomplete: ^2.5.7
     react-native-maps: ^1.20.1
+    react-native-permissions: ^5.2.3
     react-native-reanimated: ^3.16.1
     react-native-safe-area-context: ^4.14.0
     react-native-screens: ^4.0.0
@@ -9279,6 +9280,20 @@ __metadata:
     react-native-web:
       optional: true
   checksum: 3451f2cb98a0cfcac973d73d8a5bd8bc3673490ca1b3c85f6bd54110028201a7cbbcffbac56ccb931acb31e02bca8aac5805269bc13e94d93bfef868035074a7
+  languageName: node
+  linkType: hard
+
+"react-native-permissions@npm:^5.2.3":
+  version: 5.2.3
+  resolution: "react-native-permissions@npm:5.2.3"
+  peerDependencies:
+    react: ">=18.1.0"
+    react-native: ">=0.70.0"
+    react-native-windows: ">=0.70.0"
+  peerDependenciesMeta:
+    react-native-windows:
+      optional: true
+  checksum: 4048dfc18edcb8ef8b1cb5c208ea0d48a31d1ec8cc4002b2f97f3691018b73e614a69e75c2386ca4ad276942e21f6e99fa1d9d1ed7ec49f40eddf80d0af21a3a
   languageName: node
   linkType: hard
 
