@@ -42,12 +42,11 @@ const styles = StyleSheet.create({
     margin: 30,
   },
   bigText: {
-    fontSize: 32,
+    fontSize: 34,
     fontWeight: 600,
     color: COLORS.white,
   },
   smallText: {
-    fontSize: 12,
     color: COLORS.white,
   },
   button: {
