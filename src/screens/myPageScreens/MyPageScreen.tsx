@@ -53,11 +53,12 @@ const styles = StyleSheet.create({
   buttonGroup: {
     flex: 1,
     justifyContent: 'center',
-    gap: 12,
+    gap: 20,
     paddingVertical: 45,
     paddingHorizontal: 28,
   },
   button: {
+    height: 45,
     backgroundColor: COLORS.dinosRed,
     borderRadius: 12,
     justifyContent: 'center',

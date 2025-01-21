@@ -10,7 +10,15 @@ export default function MyPageSharedStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={SCREENS.MY_PAGE_SCREEN} component={MyPageScreen} />
       <Stack.Screen name={SCREENS.PROFILE_SCREEN} component={ProfileScreen} />
-      <Stack.Screen name={SCREENS.WITHDRAWAL_SCREEN} component={WithdrawalScreen} />
+      <Stack.Screen
+        name={SCREENS.WITHDRAWAL_SCREEN}
+        component={WithdrawalScreen}
+        options={{
+          headerTitle: '회원탈퇴',
+          headerShown: true,
+          headerBackVisible: true,
+        }}
+      />
     </Stack.Navigator>
   )
 }

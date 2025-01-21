@@ -82,14 +82,14 @@ api.interceptors.response.use(
           })
         } catch (refreshError) {
           console.log('Token refresh failed:', refreshError)
-          Alert.alert('토근 갱신에 실패했습니다. 다시 로그인해주세요')
+          Alert.alert('토큰 갱신에 실패했습니다. 다시 로그인해주세요')
           const { logout } = useAuthStore.getState()
           logout()
           return Promise.reject(refreshError)
         }
       } else if (errorData && errorData.error) {
         console.log('errorData.error :', errorData.error)
-        Alert.alert('토근이 만료 되었습니다. 다시 로그인해주세요')
+        Alert.alert('토큰이 만료 되었습니다. 다시 로그인해주세요')
         logout()
         return Promise.reject(error)
       }

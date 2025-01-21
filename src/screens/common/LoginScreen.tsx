@@ -1,8 +1,8 @@
-import { SafeAreaView, StyleSheet, View, Platform, Image } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Platform, Image, TouchableOpacity, Linking } from 'react-native'
 import useAuthStore from '../../store/authStore'
 import { useAppleAuth, useGoogleAuth, useNaverAuth } from '../../hooks/socialLogin'
 import { AuthRequest } from '../../services/auth'
-import { COLORS } from '../../constants/variables'
+import { COLORS, privacyUrl } from '../../constants/variables'
 import AppButton from '../../components/common/AppButton'
 import { WelcomeText } from '../../assets/icons/TextSvg'
 import AppText from '../../components/common/AppText'
@@ -27,6 +27,9 @@ function LoginScreen() {
       //   refreshToken: res.result.refreshToken,
       // })
     }
+  }
+  const openUrl = (url: string) => {
+    Linking.openURL(url)
   }
 
   return (
@@ -71,6 +74,19 @@ function LoginScreen() {
             카카오 로그인
           </AppButton> */}
         </View>
+        <View>
+          <AppText style={styles.termsText}>회원가입 시 다이노스 서비스 필수 동의 항목인</AppText>
+          <View style={styles.paragraph}>
+            <TouchableOpacity onPress={() => openUrl(privacyUrl)}>
+              <AppText style={styles.link}>개인정보처리방침</AppText>
+            </TouchableOpacity>
+            {/* <AppText style={[styles.termsText, { marginRight: 3 }]}>과</AppText>
+            <TouchableOpacity onPress={() => openUrl(serviceUrl)}>
+              <AppText style={styles.link}>서비스 이용약관</AppText>
+            </TouchableOpacity> */}
+            <AppText style={styles.termsText}>에 동의한 것으로 간주합니다.</AppText>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   )
@@ -100,7 +116,6 @@ const styles = StyleSheet.create({
   },
   desc: {
     color: 'white',
-    fontSize: 10,
   },
   buttons: {
     flex: 1,
@@ -125,6 +140,21 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+    fontWeight: 600,
+  },
+  termsText: {
+    color: '#d2d0d0',
+    textAlign: 'center',
+    fontSize: 12,
+    fontWeight: 500,
+  },
+  paragraph: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  link: {
+    color: '#ffffff',
+    fontSize: 12,
     fontWeight: 600,
   },
 })
